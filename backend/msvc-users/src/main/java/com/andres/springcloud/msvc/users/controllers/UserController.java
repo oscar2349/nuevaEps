@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import com.andres.springcloud.msvc.users.entities.User;
 import com.andres.springcloud.msvc.users.services.IUserService;
 
-import java.util.Optional;
-
 @RestController
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
@@ -18,33 +17,23 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        User savedUser = userService.save(user);
-        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+        return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> createUser(@RequestBody User user, @PathVariable Long id) {
-        
-        Optional<User> userOptional = userService.findById(id);
-
-        return userOptional.map(userDb -> {
-            userDb.setEmail(user.getEmail());
-            userDb.setUsername(user.getUsername());
-            userDb.setEnabled(user.isEnabled());
-            return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(userDb));
-        }).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable Long id) {
+        return userService.update(user, id).map(userUpdated -> ResponseEntity.status(HttpStatus.CREATED).body(userUpdated))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        Optional<User> user = userService.findById(id);
-        return user.map(ResponseEntity::ok)
+        return userService.findById(id).map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/username/{username}")
     public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
-        Optional<User> user = userService.findByUsername(username);
-        return user.map(ResponseEntity::ok)
+        return userService.findByUsername(username).map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 

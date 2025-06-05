@@ -8,6 +8,10 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: msvc.users
+          uri: lb://msvc.users
+          predicates:
+            - Path=/users/**
         - id: msvc-solicitudes
           uri: lb://msvc.solicitudes
           predicates:
