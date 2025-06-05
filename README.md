@@ -45,5 +45,6 @@ Eureka Server
 
 - levantar una instancia de un microservicio: ./mvnw spring-boot:run
 - Levantar un compose: docker-compose up -d --build
+- Actualizar Repositorio remoto: git push -u origin main
 
 

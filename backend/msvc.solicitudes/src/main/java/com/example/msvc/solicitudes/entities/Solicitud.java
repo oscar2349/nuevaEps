@@ -102,7 +102,8 @@ public class Solicitud {
         return fechaCreacion;
     }
 
-    public void setFechaCreacion(LocalDateTime fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
+    public void setFechaCreacion(LocalDateTime fechaCreacion2) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setFechaCreacion'");
     }
 }

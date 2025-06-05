@@ -2,6 +2,7 @@ package com.example.msvc.solicitudes.controllers;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,7 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.msvc.solicitudes.DTO.SolicitudDTO;
+import com.example.msvc.solicitudes.entities.Medicamento;
 import com.example.msvc.solicitudes.entities.Solicitud;
+import com.example.msvc.solicitudes.entities.Usuario;
+import com.example.msvc.solicitudes.repositories.MedicamentoRepository;
+import com.example.msvc.solicitudes.repositories.UsuarioRepository;
 import com.example.msvc.solicitudes.services.SolicitudService;
 
 @RestController
@@ -21,6 +27,12 @@ import com.example.msvc.solicitudes.services.SolicitudService;
 public class SolicitudController {
 
     final private SolicitudService service;
+
+    @Autowired
+private UsuarioRepository usuarioRepository;
+
+   @Autowired
+private MedicamentoRepository medicamentoRepository;
 
     public SolicitudController(SolicitudService service) {
         this.service = service;
@@ -45,24 +57,38 @@ public class SolicitudController {
     public ResponseEntity<Solicitud> create(@RequestBody Solicitud solicitud) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(solicitud));
     }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Solicitud solicitud) {
-        Optional<Solicitud> solicitudOptional = service.findById(id);
-        if (solicitudOptional.isPresent()) {
-            Solicitud solicitudDb = solicitudOptional.orElseThrow();
-            solicitudDb.setUsuario(solicitud.getUsuario());
-            solicitudDb.setMedicamento(solicitud.getMedicamento());
-            solicitudDb.setNumeroOrden(solicitud.getNumeroOrden());
-            solicitudDb.setDireccion(solicitud.getDireccion());
-            solicitudDb.setTelefono(solicitud.getTelefono());
-            solicitudDb.setCorreo(solicitud.getCorreo());
-            solicitudDb.setFechaCreacion(solicitud.getFechaCreacion());
-
-            return ResponseEntity.status(HttpStatus.CREATED).body(service.save(solicitudDb));
-        }
+@PutMapping("/{id}")
+public ResponseEntity<?> update(@PathVariable Long id, @RequestBody SolicitudDTO solicitudDTO) {
+    Optional<Solicitud> solicitudOptional = service.findById(id);
+    if (solicitudOptional.isEmpty()) {
         return ResponseEntity.notFound().build();
     }
+
+    Solicitud solicitudDb = solicitudOptional.get();
+
+    // Buscar usuario
+    Optional<Usuario> usuarioOpt = usuarioRepository.findById(solicitudDTO.getUsuarioId());
+    if (usuarioOpt.isEmpty()) {
+        return ResponseEntity.badRequest().body("Usuario no encontrado.");
+    }
+
+    // Buscar medicamento
+    Optional<Medicamento> medicamentoOpt = medicamentoRepository.findById(solicitudDTO.getMedicamentoId());
+    if (medicamentoOpt.isEmpty()) {
+        return ResponseEntity.badRequest().body("Medicamento no encontrado.");
+    }
+
+    // Setear campos
+    solicitudDb.setUsuario(usuarioOpt.get());
+    solicitudDb.setMedicamento(medicamentoOpt.get());
+    solicitudDb.setNumeroOrden(solicitudDTO.getNumeroOrden());
+    solicitudDb.setDireccion(solicitudDTO.getDireccion());
+    solicitudDb.setTelefono(solicitudDTO.getTelefono());
+    solicitudDb.setCorreo(solicitudDTO.getCorreo());
+    solicitudDb.setFechaCreacion(solicitudDTO.getFechaCreacion());
+
+    return ResponseEntity.status(HttpStatus.CREATED).body(service.save(solicitudDb));
+}
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
