@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.msvc.solicitudes.DTO.SolicitudDTO;
+import com.example.msvc.solicitudes.Mappers.SolicitudMapper;
 import com.example.msvc.solicitudes.entities.Medicamento;
 import com.example.msvc.solicitudes.entities.Solicitud;
 import com.example.msvc.solicitudes.entities.Usuario;
@@ -29,10 +30,10 @@ public class SolicitudController {
     final private SolicitudService service;
 
     @Autowired
-private UsuarioRepository usuarioRepository;
+    private UsuarioRepository usuarioRepository;
 
-   @Autowired
-private MedicamentoRepository medicamentoRepository;
+    @Autowired
+    private MedicamentoRepository medicamentoRepository;
 
     public SolicitudController(SolicitudService service) {
         this.service = service;
@@ -46,39 +47,39 @@ private MedicamentoRepository medicamentoRepository;
     @GetMapping("/{id}")
     public ResponseEntity<?> details(@PathVariable Long id) {
         Optional<Solicitud> solicitudOptional = service.findById(id);
-        if(solicitudOptional.isPresent()){
+        if (solicitudOptional.isPresent()) {
             return ResponseEntity.ok(solicitudOptional.orElseThrow());
         }
         return ResponseEntity.notFound().build();
     }
-    
 
     @PostMapping
-    public ResponseEntity<Solicitud> create(@RequestBody Solicitud solicitud) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(solicitud));
+    public ResponseEntity<?> crearSolicitud(@RequestBody SolicitudDTO dto) {
+        Solicitud solicitud = SolicitudMapper.toEntity(dto);
+        Solicitud nueva = service.save(solicitud);
+        return ResponseEntity.status(HttpStatus.CREATED).body(SolicitudMapper.toDTO(nueva));
     }
 @PutMapping("/{id}")
 public ResponseEntity<?> update(@PathVariable Long id, @RequestBody SolicitudDTO solicitudDTO) {
     Optional<Solicitud> solicitudOptional = service.findById(id);
     if (solicitudOptional.isEmpty()) {
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Solicitud no encontrada.");
     }
-
-    Solicitud solicitudDb = solicitudOptional.get();
 
     // Buscar usuario
     Optional<Usuario> usuarioOpt = usuarioRepository.findById(solicitudDTO.getUsuarioId());
     if (usuarioOpt.isEmpty()) {
-        return ResponseEntity.badRequest().body("Usuario no encontrado.");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuario no encontrado con ID: " + solicitudDTO.getUsuarioId());
     }
 
     // Buscar medicamento
     Optional<Medicamento> medicamentoOpt = medicamentoRepository.findById(solicitudDTO.getMedicamentoId());
     if (medicamentoOpt.isEmpty()) {
-        return ResponseEntity.badRequest().body("Medicamento no encontrado.");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Medicamento no encontrado con ID: " + solicitudDTO.getMedicamentoId());
     }
 
-    // Setear campos
+    // Actualizar campos
+    Solicitud solicitudDb = solicitudOptional.get();
     solicitudDb.setUsuario(usuarioOpt.get());
     solicitudDb.setMedicamento(medicamentoOpt.get());
     solicitudDb.setNumeroOrden(solicitudDTO.getNumeroOrden());
@@ -87,7 +88,10 @@ public ResponseEntity<?> update(@PathVariable Long id, @RequestBody SolicitudDTO
     solicitudDb.setCorreo(solicitudDTO.getCorreo());
     solicitudDb.setFechaCreacion(solicitudDTO.getFechaCreacion());
 
-    return ResponseEntity.status(HttpStatus.CREATED).body(service.save(solicitudDb));
+    Solicitud solicitudActualizada = service.save(solicitudDb);
+
+    // Puedes devolver un DTO si quieres mantener consistencia
+    return ResponseEntity.ok(SolicitudMapper.toDTO(solicitudActualizada));
 }
 
     @DeleteMapping("/{id}")
@@ -99,5 +103,5 @@ public ResponseEntity<?> update(@PathVariable Long id, @RequestBody SolicitudDTO
         }
         return ResponseEntity.notFound().build();
     }
-    
+
 }

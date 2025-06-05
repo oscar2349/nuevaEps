@@ -35,6 +35,10 @@ public class Solicitud {
     @Column(name = "fecha_creacion", columnDefinition = "TIMESTAMP")
     private LocalDateTime fechaCreacion;
 
+    public void setFechaCreacion(LocalDateTime fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
     @PrePersist
     public void prePersist() {
         this.fechaCreacion = LocalDateTime.now();
@@ -102,8 +106,6 @@ public class Solicitud {
         return fechaCreacion;
     }
 
-    public void setFechaCreacion(LocalDateTime fechaCreacion2) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setFechaCreacion'");
-    }
+
+
 }

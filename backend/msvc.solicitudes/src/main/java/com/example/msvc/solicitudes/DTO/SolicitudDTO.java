@@ -1,9 +1,17 @@
 package com.example.msvc.solicitudes.DTO;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class SolicitudDTO {
+    private Long Id;
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        Id = id;
+    }
+
     private Long usuarioId;
     private Long medicamentoId;
     private String numeroOrden;
