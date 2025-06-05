@@ -10,4 +10,8 @@ public interface SolicitudService {
     List<Solicitud> findAll();
 
     Optional<Solicitud> findById(Long id);
+
+    Solicitud save(Solicitud product);
+
+    void deleteById(Long id);
 }

@@ -41,4 +41,17 @@ public class SolicitudServiceImpl implements SolicitudService {
         });
     }
 
+
+      @Override
+    @Transactional
+    public Solicitud save(Solicitud product) {
+        return this.repository.save(product);
+    }
+
+    @Transactional
+    @Override
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
+    
 }

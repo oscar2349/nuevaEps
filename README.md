@@ -6,14 +6,17 @@ Aplicación full stack basada en Micro - servicios para gestionar solicitudes de
 - Angular
 - Docker - Docker Compose  
 - Spring Boot
+- Eureka Server
+- Spring Cloud ApiGateway
+- Spring Cloud load Balancer
 - MySQL
 - JWT
 
 ## Esquema Base de Datos
 
-Eureka Server http://localhost:8761/
+Eureka Server 
 1. Tabla usuarios
-2. Tabla medicamentos  localhost:8001/{id} -- 
+2. Tabla medicamentos
 3. Tabla solicitudes
 
 
@@ -27,7 +30,20 @@ Eureka Server http://localhost:8761/
 2. Levantar `auth-service`
 3. Levantar `solicitudes-service`
 4. Levantar Angular App (`ng serve`)
-docker-compose up -d --build
 
+
+## URLs Servicios
+
+- Microservicios Solicitudes: http://localhost:8888 O http://localhost:{52781} Puerto Random
+- Eureka Server:  http://localhost:8761/
+- Spring Cloud Gateway: http://localhost:8090/solicitudes
+- GitHub : https://github.com/oscar2349/nuevaEps
+- Microservicio Solicitudes http://localhost:8888/solicitudes
+
+
+## Comandos utiles
+
+- levantar una instancia de un microservicio: ./mvnw spring-boot:run
+- Levantar un compose: docker-compose up -d --build
 
 
