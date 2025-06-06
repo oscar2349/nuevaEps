@@ -12,21 +12,23 @@ Aplicación full stack basada en Micro - servicios para gestionar solicitudes de
 - MySQL
 - JWT
 - BcryptPassword
+- Auth0 
 
 ## Esquema Base de Datos gestion Medicamentos
 
-Eureka Server 
 1. Tabla usuarios
 2. Tabla medicamentos
 3. Tabla solicitudes
 
 ## Esquema Base de Datos gestion Roles y permisos
+
 2. Tabla Roles
 3. Tabla Usuarios Roles
 
 
 ## Módulos
 - Autenticación (`/auth`)
+- Roles y permisos de Ususario
 - Solicitudes de medicamentos (`/solicitudes`)
 
 ## repositorio GitHub
