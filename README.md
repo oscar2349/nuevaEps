@@ -38,8 +38,8 @@ Aplicación full stack basada en Micro - servicios para gestionar solicitudes de
 - GitHub : https://github.com/oscar2349/nuevaEps
 
 ## Instrucciones
-Ejecutar el Docker de la carpeta Database, para crear las tablas con data.
-Ejecutar el docker compose para la creacion del backen y el front.
+- Ejecutar el Docker de la carpeta Database, para crear las tablas con data.
+- Ejecutar el docker compose para la creacion del backen y el front.
 
 1. Ejecutar el docker compose para Crear BD en MySQL y poblar las tablas - `initNew.sql`
 2. Levanta `Eureka`
