@@ -55,5 +55,8 @@ Aplicación full stack basada en Micro - servicios para gestionar solicitudes de
 - levantar una instancia de un microservicio: ./mvnw spring-boot:run
 - Levantar un compose: docker-compose up -d --build
 - Actualizar Repositorio remoto: git push -u origin main
+- Arrancar Angular en local: ng serve -o
+
+
 
 
