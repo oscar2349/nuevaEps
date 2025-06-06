@@ -38,7 +38,9 @@ Aplicación full stack basada en Micro - servicios para gestionar solicitudes de
 - GitHub : https://github.com/oscar2349/nuevaEps
 
 ## Instrucciones
-- Ejecutar el Docker de la carpeta Database, para crear las tablas con data.
+### Levantar 
+- Ejecutar el Dockerfile de la carpeta Database, para crear las tablas con data.
+- Si se desea un Ejecutar el Docker-compose para tener un PHP My Admin como adminsitrador de BDD
 - Ejecutar el docker compose para la creacion del backen y el front.
 
 1. Ejecutar el docker compose para Crear BD en MySQL y poblar las tablas - `initNew.sql`
