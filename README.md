@@ -73,6 +73,9 @@ de esta manera se crea:
 - Actualizar Repositorio remoto: git push -u origin main
 - Arrancar Angular en local: ng serve -o
 
+## Script Pruebas Postman
+
+- https://orange-sunset-9694.postman.co/workspace/PruebasNuevaEps~8ba53308-d745-41f4-8c64-0f62b99a413c/folder/8540308-438b6873-223f-47ad-82be-6fb7cbb2cf65?action=share&creator=8540308&ctx=documentation
 
 
 
