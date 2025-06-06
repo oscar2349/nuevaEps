@@ -38,12 +38,15 @@ Aplicación full stack basada en Micro - servicios para gestionar solicitudes de
 - GitHub : https://github.com/oscar2349/nuevaEps
 
 ## Instrucciones
-### Levantar 
-- Ejecutar el Dockerfile de la carpeta Database, para crear las tablas con data.
+### Levantar Base de Datos
+- Ejecutar el Dockerfile de la carpeta "Database", para crear las tablas con data.
 - Si se desea un Ejecutar el Docker-compose para tener un PHP My Admin como adminsitrador de BDD
-- Ejecutar el docker compose para la creacion del backen y el front.
 
-1. Ejecutar el docker compose para Crear BD en MySQL y poblar las tablas - `initNew.sql`
+### Levantar Microservicios
+- Ejecutar el docker compose en la raiz de la carpeta para la creacion del backend y el front.
+
+de esta manera se crea:
+1. BD en MySQL con las tablas Pobladas - `initNew.sql`
 2. Levanta `Eureka`
 3. Levanta `msvc-oauth`
 4. Levanta `msvc.solicitudes`
