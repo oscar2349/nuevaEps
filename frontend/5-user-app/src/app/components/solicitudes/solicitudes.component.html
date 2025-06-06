@@ -1,0 +1,48 @@
+@if (solicitudes.length == 0) {
+<div class="alert alert-warning">No hay registros en el sistema!</div>
+} @else {
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th>Numero</th>
+            <th>Medicamento</th>
+            <th>Pos</th>
+            <th>Cantidad</th>
+            <th>Numero de Orden</th>
+            <th>Direccion</th>
+            <th>Telefono</th>
+            <th>Correo</th>
+            <th>Fecha de Creacion</th>
+            <th>remove</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (solicitud of solicitudes; track $index) {
+        <tr>
+            <td> {{solicitud.id}} </td>
+            <td> {{solicitud.medicamento.nombre}} </td>
+            <td> {{solicitud.medicamento.esNoPos? '✅' : '❌'}} </td>
+            <td> {{solicitud.medicamento.cantidad}} </td>
+            <td> {{solicitud.numeroOrden}} </td>
+            <td> {{solicitud.direccion}} </td>
+            <td> {{solicitud.telefono}} </td>
+            <td> {{solicitud.correo}} </td>
+            <td> {{solicitud.fechaCreacion}} </td>
+               <td>
+                <button class="btn btn-danger btn-sm"
+                (click)="onRemoveSolicitud(solicitud.id)"
+                >
+                    remove
+                </button>
+            </td>
+            <td>
+                <button class="btn btn-info btn-sm"
+                (click)="onSelectedSolicitud(solicitud)">
+                    update
+                </button>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+}

@@ -1,0 +1,104 @@
+<form (ngSubmit)="onSubmit(userForm)" #userForm="ngForm" class="card">
+
+    <div class="alert alert-info">
+        <p class="text-center">
+            <label for="medicamento">Crear Nueva Solicitud</label>
+
+        </p>
+
+        <div>
+            <label for="medicamento">Seleccione un medicamento:</label>
+
+            <div class="list-group list-group-flush">
+                <select class="form-select form-select-sm" aria-label="Small select example" id="medicamento"
+                    [(ngModel)]="solicitud.medicamento" name="medicamento" (ngModelChange)="onMedicamentoChange()"
+                    [compareWith]="compararMedicamentos" #name="ngModel">
+                    <option [ngValue]="null">-- Seleccione --</option>
+
+                    @for (medicamento of medicamentos; track medicamento.id) {
+                    <option [ngValue]="medicamento">
+                        {{ medicamento.nombre }}
+                    </option>
+                    }
+                </select>
+
+            </div>
+        </div>
+
+        @if (name.invalid && (name.dirty || name.touched)) {
+        @if(name.errors!['required']){
+        <div class="text-danger">
+            Medicamento es requerido
+        </div>
+        }
+        }
+    </div>
+
+    @if (isChecked) {
+
+    <div>
+        <div>
+            <input placeholder="N Orden" name="numeroOrden" [(ngModel)]="solicitud.numeroOrden" required
+                class="form-control my-2" #lastname="ngModel">
+
+            @if (lastname.invalid && (lastname.dirty || lastname.touched)) {
+            @if(lastname.errors!['required']){
+            <div class="text-danger">
+                El numeroOrden es requerido
+            </div>
+            }
+            }
+        </div>
+
+        <div>
+            <input placeholder="direccion" name="direccion" [(ngModel)]="solicitud.direccion" required
+                class="form-control my-2" #lastname="ngModel">
+
+            @if (lastname.invalid && (lastname.dirty || lastname.touched)) {
+            @if(lastname.errors!['required']){
+            <div class="text-danger">
+                El direccion es requerido
+            </div>
+            }
+            }
+        </div>
+
+
+
+        <div>
+            <input placeholder="telefono" name="telefono" [(ngModel)]="solicitud.telefono" required
+                class="form-control my-2" #lastname="ngModel">
+
+            @if (lastname.invalid && (lastname.dirty || lastname.touched)) {
+            @if(lastname.errors!['required']){
+            <div class="text-danger">
+                El telefono es requerido
+            </div>
+            }
+            }
+        </div>
+        <div>
+            <input placeholder="Email" name="email" [(ngModel)]="solicitud.correo" class="form-control my-2"
+                type="email" required email #email="ngModel">
+            @if (email.invalid && (email.dirty || email.touched)) {
+            @if(email.errors!['required']){
+            <div class="text-danger">
+                El email es requerido
+            </div>
+            }
+            @if(email.errors!['email']){
+            <div class="text-danger">
+                El email no tiene formato correcto!
+            </div>
+            }
+            }
+        </div>
+    </div>
+    }
+
+
+
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button class="btn btn-primary me-md-2" type="submit" [disabled]="userForm.invalid">Crear</button>
+    </div>
+</form>

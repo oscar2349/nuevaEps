@@ -1,0 +1,10 @@
+<div class="container my-4">
+    <h3>{{title}}</h3>
+    <div class="col">
+        <app-solicitudes [solicitudes]="solicitudes" (idSolicitudEventEmitter)="removeSolicitud($event)"
+            (selectdSolicitudEventEmitter)="setSelectedSolicitud($event)" />
+    </div>
+     <div class="col">
+        <solicitud-form (newSolicitudEventEmitter)="addSolicitud($event)" />
+    </div>
+</div>
