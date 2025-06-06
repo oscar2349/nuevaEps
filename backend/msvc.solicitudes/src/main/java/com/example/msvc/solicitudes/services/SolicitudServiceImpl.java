@@ -6,6 +6,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +44,7 @@ public class SolicitudServiceImpl implements SolicitudService {
     }
 
 
-      @Override
+    @Override
     @Transactional
     public Solicitud save(Solicitud product) {
         return this.repository.save(product);
@@ -52,6 +54,12 @@ public class SolicitudServiceImpl implements SolicitudService {
     @Override
     public void deleteById(Long id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<Solicitud> findAll(Pageable pageable) {
+        return this.repository.findAll(pageable);
     }
     
 }
