@@ -1,34 +1,70 @@
-version: '3.8'
+version: '3.9'
 
 services:
   mysql:
-    image: mysql:8.0
-    container_name: mysql_db
+    image: mysql:8.3
+    container_name: mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: db_medicamentos
     ports:
-      - "3307:3306"
+      - "3306:3306"
     volumes:
-      - ./database:/docker-entrypoint-initdb.d
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
-      - red_backend
+      - micro_net
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin
-    restart: always
-    environment:
-      PMA_HOST: mysql
-      MYSQL_ROOT_PASSWORD: rootpassword
+  eureka-server:
+    build: ./backend/eureka-server
+    container_name: eureka-server
     ports:
-      - "8080:80"
+      - "8761:8761"
+    networks:
+      - micro_net
     depends_on:
       - mysql
-    networks:
-      - red_backend
 
-networks:
-  red_backend:
-    driver: bridge
+  msvc-solicitudes:
+    build: ./backend/msvc-solicitudes
+    container_name: msvc-solicitudes
+    ports:
+      - "8888:8888"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/db_medicamentos
+    depends_on:
+      - eureka-server
+      - mysql
+    networks:
+      - micro_net
+
+  msvc-users:
+    build: ./backend/msvc-users
+    container_name: msvc-users
+    ports:
+      - "8082:8082"
+    depends_on:
+      - eureka-server
+      - mysql
+    networks:
+      - micro_net
+
+  msvc-oauth:
+    build: ./backend/msvc-oauth
+    container_name: msvc-oauth
+    ports:
+      - "8081:8081"
+    depends_on:
+      - eureka-server
+      - msvc-users
+    networks:
+      - micro_net
+
+  msvc-gateway:
+    build: ./backend/msvc-gateway-server
+    container_name: msvc-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - msvc-oauth
+      - msv
