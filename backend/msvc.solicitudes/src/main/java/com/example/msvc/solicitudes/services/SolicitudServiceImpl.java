@@ -34,6 +34,8 @@ public class SolicitudServiceImpl implements SolicitudService {
         }).collect(Collectors.toList());
     }
 
+    
+
     @Override
     @Transactional(readOnly = true)
     public Optional<Solicitud> findById(Long id) {
