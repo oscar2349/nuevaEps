@@ -13,6 +13,7 @@ Aplicación full stack basada en Micro - servicios para gestionar solicitudes de
 - JWT
 - BcryptPassword
 - Auth0 
+- Terraform
 
 ## Esquema Base de Datos gestion Medicamentos
 
@@ -27,18 +28,26 @@ Aplicación full stack basada en Micro - servicios para gestionar solicitudes de
 
 
 ## Módulos
-- Autenticación (`/auth`)
+- Autenticación (/auth)
 - Roles y permisos de Ususario
+- Api Gateway
+- Eureka Server
 - Solicitudes de medicamentos (`/solicitudes`)
 
 ## repositorio GitHub
 - GitHub : https://github.com/oscar2349/nuevaEps
 
 ## Instrucciones
-1. Crear BD en MySQL con `schema.sql`
-2. Levantar `auth-service`
-3. Levantar `solicitudes-service`
-4. Levantar Angular App (`ng serve`)
+1. Ejecutar el docker compose para Crear BD en MySQL y poblar las tablas - `initNew.sql`
+
+Usar el docker compose para Lenvantar el backen y el front
+2. Levanta `Eureka`
+3. Levanta `msvc-oauth`
+4. Levanta `msvc.solicitudes`
+5. Levanta `msvc-oauth`
+6. Levanta `msvc-users`
+7. Levanta `msvc-gateway-server`
+8. Levanta `Front en angular`
 
 
 ## URLs Servicios
@@ -48,6 +57,7 @@ Aplicación full stack basada en Micro - servicios para gestionar solicitudes de
 - Spring Cloud Gateway: http://localhost:8090/solicitudes
 - Microservicio Solicitudes http://localhost:8888/solicitudes
 - Microservicios usuarios: http://localhost:57111  veriicar puerto, para la gestion de usuarios User-role
+- Front en Angular: http://localhost:4200/
 
 
 ## Comandos utiles
