@@ -5,6 +5,7 @@ import { SolicitudService } from '../services/solicitud.service';
 import { SolicitudesComponent } from './solicitudes/solicitudes.component';
 import { SolicitudFormComponent } from "./solicitud-form/solicitud-form.component";
 import { MedicamentoService } from '../services/medicamento.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'user-app',
@@ -18,6 +19,7 @@ export class UserAppComponent implements OnInit {
   solicitudes: Solicitud[] = [];
   medicamentos: Medicamento[] = [];
   solicitudSelected: Solicitud;
+  open: boolean = false;
 
   constructor(
     private solicitudService: SolicitudService,
@@ -44,12 +46,9 @@ export class UserAppComponent implements OnInit {
   }
 
   addSolicitud(solicitud: Solicitud) {
-
     if (solicitud.id > 0) {
-
       this.solicitudes = this.solicitudes.map(u => (u.id == solicitud.id) ? { ...solicitud } : u);
     } else {
-
       this.solicitudes = [
         ...this.solicitudes,
         {
@@ -63,6 +62,12 @@ export class UserAppComponent implements OnInit {
 
     this.solicitudSelected = new Solicitud();
 
+    Swal.fire({
+      title: "Guardado!",
+      text: "Solicitud Creada Exitosamente",
+      icon: "success"
+    });
+    this.setOpen();
   }
 
   medicamentoSeleccionado!: Medicamento;
@@ -73,11 +78,22 @@ export class UserAppComponent implements OnInit {
 
   setSelectedSolicitud(userRow: Solicitud): void {
     this.solicitudSelected = { ...userRow };
+    this.open = true;
   }
 
   removeSolicitud(id: number): void {
-
     this.solicitudes = this.solicitudes.filter(solicitud => solicitud.id != id);
   }
 
+  setOpen() {
+
+    this.open = !this.open;
+
+  }
+
+
+  closeForm(): void {
+    this.open = false;
+    this.solicitudSelected = new Solicitud(); // Limpia si es necesario
+  }
 }

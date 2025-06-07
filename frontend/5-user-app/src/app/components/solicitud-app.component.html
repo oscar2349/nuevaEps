@@ -1,10 +1,19 @@
 <div class="container my-4">
     <h3>{{title}}</h3>
+
+    <button type="button" class="btn btn-primary" (click)="setOpen()">Crear Solicitud</button>
     <div class="col">
         <app-solicitudes [solicitudes]="solicitudes" (idSolicitudEventEmitter)="removeSolicitud($event)"
             (selectdSolicitudEventEmitter)="setSelectedSolicitud($event)" />
     </div>
+
+    @if (open) {
     <div class="col">
-        <solicitud-form [solicitud]="solicitudSelected" (newSolicitudEventEmitter)="addSolicitud($event)" />
+        <solicitud-form [solicitud]="solicitudSelected" 
+        
+        (newSolicitudEventEmitter)="addSolicitud($event)"
+        (cancelEvent)="closeForm()" />
     </div>
+
+    }
 </div>

@@ -46,8 +46,6 @@
         }
     </div>
 
-    @if (isChecked) {
-
     <div>
         <div>
             <input placeholder="N Orden" name="numeroOrden" [(ngModel)]="solicitud.numeroOrden" required
@@ -106,11 +104,33 @@
             }
         </div>
     </div>
-    }
+
+
+<div class="d-flex justify-content-end gap-3 mt-4">
+  <!-- Botón Crear -->
+  <button class="btn btn-success fw-bold d-flex align-items-center justify-content-center gap-2 w-fixed"
+          type="submit" [disabled]="userForm.invalid">
+    <i class="bi bi-check-circle-fill"></i>
+    Crear
+  </button>
+
+  <!-- Botón Limpiar -->
+  <button type="button"
+          class="btn btn-outline-secondary fw-semibold d-flex align-items-center justify-content-center gap-2 w-fixed"
+          (click)="onClear(userForm)">
+    <i class="bi bi-arrow-clockwise"></i>
+    Limpiar
+  </button>
+
+  <!-- Botón Cancelar SIEMPRE ROJO -->
+  <button type="button"
+          class="btn btn-danger fw-bold d-flex align-items-center justify-content-center gap-2 w-fixed"
+          (click)="onCancel(userForm)">
+    <i class="bi bi-x-circle-fill"></i>
+    Cancelar
+  </button>
+</div>
 
 
 
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button class="btn btn-primary me-md-2" type="submit" [disabled]="userForm.invalid">Crear</button>
-    </div>
 </form>

@@ -16,8 +16,7 @@ export class SolicitudFormComponent {
   @Input() medicamentos: Medicamento[] = [];
   @Output() newSolicitudEventEmitter: EventEmitter<Solicitud> = new EventEmitter();
   @Input() solicitud: Solicitud;
-  @Input() isChecked: boolean = true;
-  @Input() isUpdate: boolean = false;
+  @Output() cancelEvent: EventEmitter<void> = new EventEmitter<void>();
 
   medicamento: Medicamento;
   newSolicitud: Solicitud = new Solicitud;
@@ -67,6 +66,12 @@ export class SolicitudFormComponent {
 
   }
 
+  onCancel(userForm: NgForm): void {
+  userForm.reset();
+  userForm.resetForm();
+  this.cancelEvent.emit(); // Notifica al padre
+}
+
   compararMedicamentos(m1: Medicamento, m2: Medicamento): boolean {
     return m1 && m2 ? m1.id === m2.id : m1 === m2;
 
@@ -74,7 +79,7 @@ export class SolicitudFormComponent {
 
   onMedicamentoChange() {
 
-    this.isChecked = this.solicitud.medicamento?.esNoPos ?? false;
+    //this.isChecked = this.solicitud.medicamento?.esNoPos ?? false;
 
   }
 
