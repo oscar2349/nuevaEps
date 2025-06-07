@@ -75,7 +75,6 @@ export class SolicitudFormComponent {
 
   onMedicamentoChange() {
 
-
     this.isChecked = this.solicitud.medicamento?.esNoPos ?? false;
 
   }
