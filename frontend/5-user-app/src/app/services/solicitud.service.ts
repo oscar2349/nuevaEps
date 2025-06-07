@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Solicitud } from '../models/solicitud';
 import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 
 @Injectable({
@@ -8,53 +9,33 @@ import { Observable, of } from 'rxjs';
 })
 export class SolicitudService {
 
-  private solicitud: Solicitud[] = [{
-        "id": 1,
-        "medicamento": {
-            "id": 10,
-            "nombre": "Paracetamol",
-            "esNoPos": true,
-            "cantidad": 8
-        },
-        "numeroOrden": "ORD12345",
-        "direccion": "Calle Falsa 123",
-        "telefono": "123456789",
-        "correo": "usuario@example.com",
-        "fechaCreacion": "2025-06-05T14:30:00"
-    },
-    {    "id": 2,
-        "medicamento": {
-            "id": 10,
-            "nombre": "Nivolumab",
-            "esNoPos": false,
-            "cantidad": 80
-        },
-        "numeroOrden": "ORD12345",
-        "direccion": "Calle Falsa 123",
-        "telefono": "123456789",
-        "correo": "usuario@example.com",
-        "fechaCreacion": "2025-06-05T14:30:00"
-    },
-   {    "id": 3,
-        "medicamento": {
-            "id": 10,
-            "nombre": "Ibuprofeno",
-            "esNoPos": true,
-            "cantidad": 100
-        },
-        "numeroOrden": "ORD12345",
-        "direccion": "Calle Falsa 123",
-        "telefono": "123456789",
-        "correo": "usuario@example.com",
-        "fechaCreacion": "2025-06-05T14:30:00"
-    },
-  
-  ];
+  private url: string = 'http://localhost:8090/solicitudes';
 
-  constructor() { }
+
+  private solicitud: Solicitud[] = [];
+
+  constructor(private http: HttpClient) { }
+
+
 
   findAll(): Observable<Solicitud[]> {
-    return of(this.solicitud);
+    //return of(this.solicitud);
+    return this.http.get<Solicitud[]>(this.url);
+  }
+    findById(id: number): Observable<Solicitud> {
+    return this.http.get<Solicitud>(`${this.url}/${id}`);
+  }
+
+  create(user: Solicitud): Observable<Solicitud>{
+    return this.http.post<Solicitud>(this.url, user);
+  }
+
+  update(user: Solicitud): Observable<Solicitud>{
+    return this.http.put<Solicitud>(`${this.url}/${user.id}`, user);
+  }
+
+  remove(id: number): Observable<void>{
+    return this.http.delete<void>(`${this.url}/${id}`);
   }
 }
 
