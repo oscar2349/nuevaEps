@@ -3,7 +3,6 @@
     <div class="alert alert-info">
         <p class="text-center">
             <label for="medicamento">Crear Nueva Solicitud</label>
-
         </p>
 
         <div>
@@ -34,15 +33,28 @@
         }
     </div>
 
+    <div>
+        <input placeholder="cantidad" name="cantidad" [(ngModel)]="medicamento.cantidad" required
+            class="form-control my-2" #cantidad="ngModel">
+
+        @if (cantidad.invalid && (cantidad.dirty || cantidad.touched)) {
+        @if(cantidad.errors!['required']){
+        <div class="text-danger">
+            la cantidad es requerida
+        </div>
+        }
+        }
+    </div>
+
     @if (isChecked) {
 
     <div>
         <div>
             <input placeholder="N Orden" name="numeroOrden" [(ngModel)]="solicitud.numeroOrden" required
-                class="form-control my-2" #lastname="ngModel">
+                class="form-control my-2" #numeroOrden="ngModel">
 
-            @if (lastname.invalid && (lastname.dirty || lastname.touched)) {
-            @if(lastname.errors!['required']){
+            @if (numeroOrden.invalid && (numeroOrden.dirty || numeroOrden.touched)) {
+            @if(numeroOrden.errors!['required']){
             <div class="text-danger">
                 El numeroOrden es requerido
             </div>
@@ -52,10 +64,10 @@
 
         <div>
             <input placeholder="direccion" name="direccion" [(ngModel)]="solicitud.direccion" required
-                class="form-control my-2" #lastname="ngModel">
+                class="form-control my-2" #direccion="ngModel">
 
-            @if (lastname.invalid && (lastname.dirty || lastname.touched)) {
-            @if(lastname.errors!['required']){
+            @if (direccion.invalid && (direccion.dirty || direccion.touched)) {
+            @if(direccion.errors!['required']){
             <div class="text-danger">
                 El direccion es requerido
             </div>
@@ -67,10 +79,10 @@
 
         <div>
             <input placeholder="telefono" name="telefono" [(ngModel)]="solicitud.telefono" required
-                class="form-control my-2" #lastname="ngModel">
+                class="form-control my-2" #telefono="ngModel">
 
-            @if (lastname.invalid && (lastname.dirty || lastname.touched)) {
-            @if(lastname.errors!['required']){
+            @if (telefono.invalid && (telefono.dirty || telefono.touched)) {
+            @if(telefono.errors!['required']){
             <div class="text-danger">
                 El telefono es requerido
             </div>

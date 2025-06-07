@@ -16,52 +16,67 @@ export class UserAppComponent implements OnInit {
   title: string = 'Listado de Solicitudes!';
 
   solicitudes: Solicitud[] = [];
-  medicamentos : Medicamento[] = [];
- solicitudSelected: Solicitud = new Solicitud();
+  medicamentos: Medicamento[] = [];
+  solicitudSelected: Solicitud;
 
   constructor(
     private solicitudService: SolicitudService,
     private MedicamentoService: MedicamentoService
-  ) {}
+  ) {
+
+    this.solicitudSelected = new Solicitud();
+  }
 
 
   ngOnInit(): void {
     this.cargarDatos();
   }
 
-    cargarDatos(): void {
+  cargarDatos(): void {
 
     this.solicitudService.findAll().subscribe(data => {
       this.solicitudes = data;
     });
 
-     this.MedicamentoService.findAll().subscribe(data => {
+    this.MedicamentoService.findAll().subscribe(data => {
       this.medicamentos = data;
     });
   }
 
-addSolicitud(solicitud: Solicitud) {
-  this.solicitudes = [
-    ...this.solicitudes,
-    {
-      ...solicitud,
-      id: Date.now(),
-      fechaCreacion: new Date().toISOString()
-    }
-  ];
-}
+  addSolicitud(solicitud: Solicitud) {
 
-medicamentoSeleccionado!: Medicamento;
-verSeleccionado() {
-  console.log(this.medicamentoSeleccionado);
-  console.log('ID:', this.medicamentoSeleccionado?.id);
-}
+    if (solicitud.id > 0) {
+
+      this.solicitudes = this.solicitudes.map(u => (u.id == solicitud.id) ? { ...solicitud } : u);
+    } else {
+
+      this.solicitudes = [
+        ...this.solicitudes,
+        {
+          ...solicitud,
+          id: Date.now(),
+          fechaCreacion: new Date().toISOString()
+        }
+      ];
+
+    }
+
+this.solicitudSelected= new Solicitud();
+
+  }
+
+  medicamentoSeleccionado!: Medicamento;
+  verSeleccionado() {
+    console.log(this.medicamentoSeleccionado);
+    console.log('ID:', this.medicamentoSeleccionado?.id);
+  }
 
   setSelectedSolicitud(userRow: Solicitud): void {
-    this.solicitudSelected = {... userRow};
+    this.solicitudSelected = { ...userRow };
   }
 
   removeSolicitud(id: number): void {
+
     this.solicitudes = this.solicitudes.filter(solicitud => solicitud.id != id);
   }
 

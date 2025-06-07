@@ -5,6 +5,8 @@
             (selectdSolicitudEventEmitter)="setSelectedSolicitud($event)" />
     </div>
      <div class="col">
-        <solicitud-form (newSolicitudEventEmitter)="addSolicitud($event)" />
+        <solicitud-form 
+        [solicitud] = "solicitudSelected"
+        (newSolicitudEventEmitter)="addSolicitud($event)" />
     </div>
 </div>

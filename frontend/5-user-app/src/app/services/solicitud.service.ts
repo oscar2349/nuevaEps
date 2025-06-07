@@ -27,7 +27,7 @@ export class SolicitudService {
             "id": 10,
             "nombre": "Nivolumab",
             "esNoPos": false,
-            "cantidad": 8
+            "cantidad": 80
         },
         "numeroOrden": "ORD12345",
         "direccion": "Calle Falsa 123",
@@ -40,7 +40,7 @@ export class SolicitudService {
             "id": 10,
             "nombre": "Ibuprofeno",
             "esNoPos": true,
-            "cantidad": 8
+            "cantidad": 100
         },
         "numeroOrden": "ORD12345",
         "direccion": "Calle Falsa 123",

@@ -1,11 +1,12 @@
 import { Solicitud } from '../../models/solicitud';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { SolicitudFormComponent } from "../solicitud-form/solicitud-form.component";
 
 
 @Component({
   selector: 'app-solicitudes',
   standalone: true,
-  imports: [],
+  imports: [SolicitudFormComponent],
   templateUrl: './solicitudes.component.html',
 })
 export class SolicitudesComponent {
@@ -14,6 +15,7 @@ export class SolicitudesComponent {
   @Input() solicitudes: Solicitud[] = [];
   @Output() idSolicitudEventEmitter = new EventEmitter();
   @Output() selectdSolicitudEventEmitter = new EventEmitter();
+  update:boolean=false;
 
 
   constructor() {
@@ -28,6 +30,8 @@ export class SolicitudesComponent {
   }
 
   onSelectedSolicitud(solicitud: Solicitud): void {
+  
+    this.update=true
     this.selectdSolicitudEventEmitter.emit(solicitud);
   }
 
