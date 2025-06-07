@@ -15,7 +15,8 @@ spring:
         - id: msvc-solicitudes
           uri: lb://msvc.solicitudes
           predicates:
-            - Path=/solicitudes/**
+            - Path=/solicitudes/**,/medicamentos/**
+            
           # NO usamos StripPrefix porque el endpoint ya espera /solicitudes
           # Si usas StripPrefix=1, eliminarías la palabra "/solicitudes", lo que causaría un 404
           

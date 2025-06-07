@@ -20,16 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.msvc.solicitudes.DTO.MedicamentoDTO;
-import com.example.msvc.solicitudes.DTO.SolicitudDTO;
 import com.example.msvc.solicitudes.Mappers.MedicamentoMapper;
-import com.example.msvc.solicitudes.Mappers.SolicitudMapper;
 import com.example.msvc.solicitudes.entities.Medicamento;
-import com.example.msvc.solicitudes.entities.Solicitud;
-import com.example.msvc.solicitudes.entities.Usuario;
 import com.example.msvc.solicitudes.repositories.MedicamentoRepository;
-import com.example.msvc.solicitudes.repositories.UsuarioRepository;
 import com.example.msvc.solicitudes.services.MedicamentoService;
-import com.example.msvc.solicitudes.services.SolicitudService;
 
 @RestController
 @RequestMapping("/medicamentos")
@@ -37,8 +31,8 @@ public class MedicamentosController {
 
     final private MedicamentoService service;
 
-    //@Autowired
-    //private UsuarioRepository usuarioRepository;
+    // @Autowired
+    // private UsuarioRepository usuarioRepository;
 
     @Autowired
     private MedicamentoRepository medicamentoRepository;
@@ -86,14 +80,14 @@ public class MedicamentosController {
         }
 
         Medicamento medicamentoDB = MedicamentoMapper.toEntity(medicamentoDTO);
-        Medicamento medicamentoActualizado = service.save(medicamentoDB);        
+        Medicamento medicamentoActualizado = service.save(medicamentoDB);
         return ResponseEntity.ok(MedicamentoMapper.toDTO(medicamentoActualizado));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        Optional<Solicitud> solicitudOptional = service.findById(id);
-        if (solicitudOptional.isPresent()) {
+        Optional<Medicamento> medicamentoOptional = service.findById(id);
+        if (medicamentoOptional.isPresent()) {
             this.service.deleteById(id);
             return ResponseEntity.noContent().build();
         }
