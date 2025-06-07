@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Solicitud } from '../models/solicitud';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 

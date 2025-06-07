@@ -18,7 +18,7 @@
         </tr>
     </thead>
     <tbody>
-        @for (solicitud of solicitudes; track $index) {
+        @for (solicitud of solicitudesPaginadas; track $index) {
         <tr>
             <td> {{solicitud.id}} </td>
             <td> {{solicitud.medicamento.nombre}} </td>
@@ -29,16 +29,13 @@
             <td> {{solicitud.telefono}} </td>
             <td> {{solicitud.correo}} </td>
             <td> {{solicitud.fechaCreacion}} </td>
-               <td>
-                <button class="btn btn-danger btn-sm"
-                (click)="onRemoveSolicitud(solicitud.id)"
-                >
+            <td>
+                <button class="btn btn-danger btn-sm" (click)="onRemoveSolicitud(solicitud.id)">
                     remove
                 </button>
             </td>
             <td>
-                <button class="btn btn-info btn-sm"
-                (click)="onSelectedSolicitud(solicitud)">
+                <button class="btn btn-info btn-sm" (click)="onSelectedSolicitud(solicitud)">
                     Update
                 </button>
             </td>
@@ -46,8 +43,37 @@
         }
     </tbody>
 </table>
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center mt-3">
+
+        <!-- Botón "Anterior" -->
+        <li class="page-item" [class.disabled]="currentPage === 0">
+            <button class="page-link" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 0">
+                Anterior
+            </button>
+        </li>
+
+        <!-- Números de página dinámicos -->
+        <li class="page-item" *ngFor="let page of getVisiblePages()" [class.active]="page === currentPage">
+            <button class="page-link" (click)="goToPage(page)">
+                {{ page + 1 }}
+            </button>
+        </li>
+
+        <!-- Botón "Siguiente" -->
+        <li class="page-item" [class.disabled]="currentPage + 1 >= totalPages">
+            <button class="page-link" (click)="goToPage(currentPage + 1)" [disabled]="currentPage + 1 >= totalPages">
+                Siguiente
+            </button>
+        </li>
+
+    </ul>
+</nav>
+
+
+
 }
-@if (update  && false) {
-    <h2>solitudcomponet</h2>
+@if (update && false) {
+<h2>solitudcomponet</h2>
 <solicitud-form [isUpdate]="true"></solicitud-form>
 }

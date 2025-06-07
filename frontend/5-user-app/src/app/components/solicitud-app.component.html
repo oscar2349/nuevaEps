@@ -4,9 +4,7 @@
         <app-solicitudes [solicitudes]="solicitudes" (idSolicitudEventEmitter)="removeSolicitud($event)"
             (selectdSolicitudEventEmitter)="setSelectedSolicitud($event)" />
     </div>
-     <div class="col">
-        <solicitud-form 
-        [solicitud] = "solicitudSelected"
-        (newSolicitudEventEmitter)="addSolicitud($event)" />
+    <div class="col">
+        <solicitud-form [solicitud]="solicitudSelected" (newSolicitudEventEmitter)="addSolicitud($event)" />
     </div>
 </div>

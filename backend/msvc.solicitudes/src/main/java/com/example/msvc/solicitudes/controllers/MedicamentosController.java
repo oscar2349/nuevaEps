@@ -67,7 +67,8 @@ public class MedicamentosController {
             return validation(result);
         }
 
-        Medicamento medicamento = MedicamentoMapper.toEntity(dto);
+        Medicamento medicamento = new Medicamento();
+        medicamento = MedicamentoMapper.toEntity(dto);
         Medicamento nueva = service.save(medicamento);
         return ResponseEntity.status(HttpStatus.CREATED).body(MedicamentoMapper.toDTO(nueva));
     }

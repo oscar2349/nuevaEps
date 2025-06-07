@@ -13,7 +13,7 @@ import { MedicamentoService } from '../services/medicamento.service';
   templateUrl: './solicitud-app.component.html'
 })
 export class UserAppComponent implements OnInit {
-  title: string = 'Listado de Solicitudes!';
+  title: string = 'Listado de Solicitudes';
 
   solicitudes: Solicitud[] = [];
   medicamentos: Medicamento[] = [];
@@ -61,7 +61,7 @@ export class UserAppComponent implements OnInit {
 
     }
 
-this.solicitudSelected= new Solicitud();
+    this.solicitudSelected = new Solicitud();
 
   }
 

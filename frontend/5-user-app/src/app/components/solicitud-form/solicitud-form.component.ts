@@ -2,7 +2,6 @@ import { Component, computed, EventEmitter, Input, Output, signal } from '@angul
 import { Solicitud } from '../../models/solicitud';
 import { Medicamento } from '../../models/medicamento';
 import { FormsModule, NgForm } from '@angular/forms';
-import { SolicitudService } from '../../services/solicitud.service';
 import { MedicamentoService } from '../../services/medicamento.service';
 
 @Component({
@@ -17,7 +16,7 @@ export class SolicitudFormComponent {
   @Input() medicamentos: Medicamento[] = [];
   @Output() newSolicitudEventEmitter: EventEmitter<Solicitud> = new EventEmitter();
   @Input() solicitud: Solicitud;
-  @Input() isChecked: boolean = false;
+  @Input() isChecked: boolean = true;
   @Input() isUpdate: boolean = false;
 
   medicamento: Medicamento;
@@ -78,4 +77,5 @@ export class SolicitudFormComponent {
     this.isChecked = this.solicitud.medicamento?.esNoPos ?? false;
 
   }
+
 }
