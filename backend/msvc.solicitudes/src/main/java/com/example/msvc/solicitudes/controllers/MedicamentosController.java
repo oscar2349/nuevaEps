@@ -18,28 +18,32 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.msvc.solicitudes.DTO.MedicamentoDTO;
 import com.example.msvc.solicitudes.DTO.SolicitudDTO;
+import com.example.msvc.solicitudes.Mappers.MedicamentoMapper;
 import com.example.msvc.solicitudes.Mappers.SolicitudMapper;
 import com.example.msvc.solicitudes.entities.Medicamento;
 import com.example.msvc.solicitudes.entities.Solicitud;
 import com.example.msvc.solicitudes.entities.Usuario;
 import com.example.msvc.solicitudes.repositories.MedicamentoRepository;
 import com.example.msvc.solicitudes.repositories.UsuarioRepository;
+import com.example.msvc.solicitudes.services.MedicamentoService;
 import com.example.msvc.solicitudes.services.SolicitudService;
 
 @RestController
-@RequestMapping("/solicitudes")
-public class SolicitudController {
+@RequestMapping("/medicamentos")
+public class MedicamentosController {
 
-    final private SolicitudService service;
+    final private MedicamentoService service;
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    //@Autowired
+    //private UsuarioRepository usuarioRepository;
 
     @Autowired
     private MedicamentoRepository medicamentoRepository;
 
-    public SolicitudController(SolicitudService service) {
+    public MedicamentosController(MedicamentoService service) {
         this.service = service;
     }
 
@@ -49,66 +53,41 @@ public class SolicitudController {
     }
 
     @GetMapping("/page/{page}")
-    public Page<Solicitud> listPageable(@PathVariable Integer page) {
+    public Page<Medicamento> listPageable(@PathVariable Integer page) {
         Pageable pageable = PageRequest.of(page, 4);
         return service.findAll(pageable);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> details(@PathVariable Long id) {
-        Optional<Solicitud> solicitudOptional = service.findById(id);
-        if (solicitudOptional.isPresent()) {
-            return ResponseEntity.ok(solicitudOptional.orElseThrow());
+        Optional<Medicamento> medicamentoOptional = service.findById(id);
+        if (medicamentoOptional.isPresent()) {
+            return ResponseEntity.ok(medicamentoOptional.orElseThrow());
         }
         return ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    public ResponseEntity<?> crearSolicitud(@RequestBody SolicitudDTO dto, BindingResult result) {
+    public ResponseEntity<?> crearMedicamento(@RequestBody MedicamentoDTO dto, BindingResult result) {
         if (result.hasErrors()) {
             return validation(result);
         }
 
-        Solicitud solicitud = SolicitudMapper.toEntity(dto);
-        Solicitud nueva = service.save(solicitud);
-        return ResponseEntity.status(HttpStatus.CREATED).body(SolicitudMapper.toDTO(nueva));
+        Medicamento medicamento = MedicamentoMapper.toEntity(dto);
+        Medicamento nueva = service.save(medicamento);
+        return ResponseEntity.status(HttpStatus.CREATED).body(MedicamentoMapper.toDTO(nueva));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody SolicitudDTO solicitudDTO) {
-        Optional<Solicitud> solicitudOptional = service.findById(id);
-        if (solicitudOptional.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Solicitud no encontrada.");
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody MedicamentoDTO medicamentoDTO) {
+        Optional<Medicamento> medicamentoOptional = service.findById(id);
+        if (medicamentoOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Medicamento no encontrada.");
         }
 
-        // Buscar Solicitud
-        Optional<Usuario> usuarioOpt = usuarioRepository.findById(solicitudDTO.getUsuarioId());
-        if (usuarioOpt.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Usuario no encontrado con ID: " + solicitudDTO.getUsuarioId());
-        }
-
-        // Buscar medicamento
-        Optional<Medicamento> medicamentoOpt = medicamentoRepository.findById(solicitudDTO.getMedicamentoId());
-        if (medicamentoOpt.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Medicamento no encontrado con ID: " + solicitudDTO.getMedicamentoId());
-        }
-
-        // Actualizar campos
-        Solicitud solicitudDb = solicitudOptional.get();
-        solicitudDb.setUsuario(usuarioOpt.get());
-        solicitudDb.setMedicamento(medicamentoOpt.get());
-        solicitudDb.setNumeroOrden(solicitudDTO.getNumeroOrden());
-        solicitudDb.setDireccion(solicitudDTO.getDireccion());
-        solicitudDb.setTelefono(solicitudDTO.getTelefono());
-        solicitudDb.setCorreo(solicitudDTO.getCorreo());
-        solicitudDb.setFechaCreacion(solicitudDTO.getFechaCreacion());
-
-        Solicitud solicitudActualizada = service.save(solicitudDb);
-
-        // Puedes devolver un DTO si quieres mantener consistencia
-        return ResponseEntity.ok(SolicitudMapper.toDTO(solicitudActualizada));
+        Medicamento medicamentoDB = MedicamentoMapper.toEntity(medicamentoDTO);
+        Medicamento medicamentoActualizado = service.save(medicamentoDB);        
+        return ResponseEntity.ok(MedicamentoMapper.toDTO(medicamentoActualizado));
     }
 
     @DeleteMapping("/{id}")

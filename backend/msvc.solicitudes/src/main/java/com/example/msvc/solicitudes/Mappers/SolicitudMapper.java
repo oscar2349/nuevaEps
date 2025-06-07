@@ -1,6 +1,7 @@
 package com.example.msvc.solicitudes.Mappers;
 
 
+import com.example.msvc.solicitudes.DTO.MedicamentoDTO;
 import com.example.msvc.solicitudes.DTO.SolicitudDTO;
 import com.example.msvc.solicitudes.entities.Solicitud;
 import com.example.msvc.solicitudes.entities.Usuario;

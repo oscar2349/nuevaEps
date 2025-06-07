@@ -22,19 +22,25 @@ export class SolicitudService {
     //return of(this.solicitud);
     return this.http.get<Solicitud[]>(this.url);
   }
-    findById(id: number): Observable<Solicitud> {
+
+
+  findAllPageable(page: number): Observable<any> {
+    return this.http.get<any[]>(`${this.url}/page/${page}`);
+  }
+
+  findById(id: number): Observable<Solicitud> {
     return this.http.get<Solicitud>(`${this.url}/${id}`);
   }
 
-  create(user: Solicitud): Observable<Solicitud>{
+  create(user: Solicitud): Observable<Solicitud> {
     return this.http.post<Solicitud>(this.url, user);
   }
 
-  update(user: Solicitud): Observable<Solicitud>{
+  update(user: Solicitud): Observable<Solicitud> {
     return this.http.put<Solicitud>(`${this.url}/${user.id}`, user);
   }
 
-  remove(id: number): Observable<void>{
+  remove(id: number): Observable<void> {
     return this.http.delete<void>(`${this.url}/${id}`);
   }
 }

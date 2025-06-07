@@ -1,6 +1,5 @@
 package com.example.msvc.solicitudes.services;
 
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -14,12 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.msvc.solicitudes.entities.Solicitud;
 import com.example.msvc.solicitudes.repositories.SolicitudRepository;
 
-
 @Service
 public class SolicitudServiceImpl implements SolicitudService {
 
     final private SolicitudRepository repository;
-
 
     public SolicitudServiceImpl(SolicitudRepository repository, Environment environment) {
         this.repository = repository;
@@ -29,22 +26,25 @@ public class SolicitudServiceImpl implements SolicitudService {
     @Transactional(readOnly = true)
     public List<Solicitud> findAll() {
         return ((List<Solicitud>) repository.findAll()).stream().map(product -> {
-            
+
             return product;
         }).collect(Collectors.toList());
     }
 
-    
+    @Override
+    @Transactional(readOnly = true)
+    public Page<Solicitud> findAll(Pageable pageable) {
+        return this.repository.findAll(pageable);
+    }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<Solicitud> findById(Long id) {
         return repository.findById(id).map(Solicitud -> {
-            
+
             return Solicitud;
         });
     }
-
 
     @Override
     @Transactional
@@ -58,10 +58,4 @@ public class SolicitudServiceImpl implements SolicitudService {
         repository.deleteById(id);
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Page<Solicitud> findAll(Pageable pageable) {
-        return this.repository.findAll(pageable);
-    }
-    
 }

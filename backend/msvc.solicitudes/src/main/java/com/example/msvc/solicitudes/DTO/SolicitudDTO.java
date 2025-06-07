@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 public class SolicitudDTO {
     private Long Id;
+
     public Long getId() {
         return Id;
     }
