@@ -1,5 +1,7 @@
 package com.example.msvc.solicitudes.controllers;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -63,45 +66,52 @@ public class SolicitudController {
     }
 
     @PostMapping
-    public ResponseEntity<?> crearSolicitud(@RequestBody SolicitudDTO dto) {
+    public ResponseEntity<?> crearSolicitud(@RequestBody SolicitudDTO dto, BindingResult result) {
+        if (result.hasErrors()) {
+            return validation(result);
+        }
+
         Solicitud solicitud = SolicitudMapper.toEntity(dto);
         Solicitud nueva = service.save(solicitud);
         return ResponseEntity.status(HttpStatus.CREATED).body(SolicitudMapper.toDTO(nueva));
     }
-@PutMapping("/{id}")
-public ResponseEntity<?> update(@PathVariable Long id, @RequestBody SolicitudDTO solicitudDTO) {
-    Optional<Solicitud> solicitudOptional = service.findById(id);
-    if (solicitudOptional.isEmpty()) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Solicitud no encontrada.");
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody SolicitudDTO solicitudDTO) {
+        Optional<Solicitud> solicitudOptional = service.findById(id);
+        if (solicitudOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Solicitud no encontrada.");
+        }
+
+        // Buscar usuario
+        Optional<Usuario> usuarioOpt = usuarioRepository.findById(solicitudDTO.getUsuarioId());
+        if (usuarioOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Usuario no encontrado con ID: " + solicitudDTO.getUsuarioId());
+        }
+
+        // Buscar medicamento
+        Optional<Medicamento> medicamentoOpt = medicamentoRepository.findById(solicitudDTO.getMedicamentoId());
+        if (medicamentoOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Medicamento no encontrado con ID: " + solicitudDTO.getMedicamentoId());
+        }
+
+        // Actualizar campos
+        Solicitud solicitudDb = solicitudOptional.get();
+        solicitudDb.setUsuario(usuarioOpt.get());
+        solicitudDb.setMedicamento(medicamentoOpt.get());
+        solicitudDb.setNumeroOrden(solicitudDTO.getNumeroOrden());
+        solicitudDb.setDireccion(solicitudDTO.getDireccion());
+        solicitudDb.setTelefono(solicitudDTO.getTelefono());
+        solicitudDb.setCorreo(solicitudDTO.getCorreo());
+        solicitudDb.setFechaCreacion(solicitudDTO.getFechaCreacion());
+
+        Solicitud solicitudActualizada = service.save(solicitudDb);
+
+        // Puedes devolver un DTO si quieres mantener consistencia
+        return ResponseEntity.ok(SolicitudMapper.toDTO(solicitudActualizada));
     }
-
-    // Buscar usuario
-    Optional<Usuario> usuarioOpt = usuarioRepository.findById(solicitudDTO.getUsuarioId());
-    if (usuarioOpt.isEmpty()) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuario no encontrado con ID: " + solicitudDTO.getUsuarioId());
-    }
-
-    // Buscar medicamento
-    Optional<Medicamento> medicamentoOpt = medicamentoRepository.findById(solicitudDTO.getMedicamentoId());
-    if (medicamentoOpt.isEmpty()) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Medicamento no encontrado con ID: " + solicitudDTO.getMedicamentoId());
-    }
-
-    // Actualizar campos
-    Solicitud solicitudDb = solicitudOptional.get();
-    solicitudDb.setUsuario(usuarioOpt.get());
-    solicitudDb.setMedicamento(medicamentoOpt.get());
-    solicitudDb.setNumeroOrden(solicitudDTO.getNumeroOrden());
-    solicitudDb.setDireccion(solicitudDTO.getDireccion());
-    solicitudDb.setTelefono(solicitudDTO.getTelefono());
-    solicitudDb.setCorreo(solicitudDTO.getCorreo());
-    solicitudDb.setFechaCreacion(solicitudDTO.getFechaCreacion());
-
-    Solicitud solicitudActualizada = service.save(solicitudDb);
-
-    // Puedes devolver un DTO si quieres mantener consistencia
-    return ResponseEntity.ok(SolicitudMapper.toDTO(solicitudActualizada));
-}
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
@@ -111,6 +121,14 @@ public ResponseEntity<?> update(@PathVariable Long id, @RequestBody SolicitudDTO
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    private ResponseEntity<?> validation(BindingResult result) {
+        Map<String, String> errors = new HashMap<>();
+        result.getFieldErrors().forEach(error -> {
+            errors.put(error.getField(), "El campo " + error.getField() + " " + error.getDefaultMessage());
+        });
+        return ResponseEntity.badRequest().body(errors);
     }
 
 }

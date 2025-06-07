@@ -1,8 +1,11 @@
 package com.example.msvc.solicitudes.entities;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 
+import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -28,8 +31,15 @@ public class Solicitud {
     @Column(name = "numero_orden")
     private String numeroOrden;
 
+    @NotEmpty
     private String direccion;
+
+    @NotEmpty
+    @NotBlank
     private String telefono;
+
+    @NotEmpty
+    @Email
     private String correo;
 
     @Column(name = "fecha_creacion", columnDefinition = "TIMESTAMP")
