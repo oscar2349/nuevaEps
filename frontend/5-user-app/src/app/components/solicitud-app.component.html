@@ -9,9 +9,11 @@
 
     @if (open) {
     <div class="col">
-        <solicitud-form [solicitud]="solicitudSelected" 
-        
-        (newSolicitudEventEmitter)="addSolicitud($event)"
+        <solicitud-form 
+        [usuarios]="usuarios"
+        [medicamentos]="medicamentos"
+        [solicitud]="solicitudSelected"  
+        (solicitudEventEmitter)="addSolicitud($event)"
         (cancelEvent)="closeForm()" />
     </div>
 

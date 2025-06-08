@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Solicitud } from '../models/solicitud';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { SolicitudPayload } from '../models/solicitudPayload';
 
 
 @Injectable({
@@ -32,15 +33,16 @@ export class SolicitudService {
     return this.http.get<Solicitud>(`${this.url}/${id}`);
   }
 
-  create(user: Solicitud): Observable<Solicitud> {
-    return this.http.post<Solicitud>(this.url, user);
+  create(payload: SolicitudPayload): Observable<Solicitud> {
+    return this.http.post<Solicitud>(this.url, payload);
   }
 
-  update(user: Solicitud): Observable<Solicitud> {
-    return this.http.put<Solicitud>(`${this.url}/${user.id}`, user);
+  update(id: number, payload: SolicitudPayload): Observable<Solicitud> {
+    return this.http.put<Solicitud>(`${this.url}/${id}`, payload);
   }
 
   remove(id: number): Observable<void> {
+    console.log(`${this.url}/${id}`)
     return this.http.delete<void>(`${this.url}/${id}`);
   }
 }

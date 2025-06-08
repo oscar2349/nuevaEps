@@ -1,8 +1,8 @@
-import { Component, computed, EventEmitter, Input, Output, signal } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Solicitud } from '../../models/solicitud';
 import { Medicamento } from '../../models/medicamento';
 import { FormsModule, NgForm } from '@angular/forms';
-import { MedicamentoService } from '../../services/medicamento.service';
+import { Usuario } from '../../models/usuario';
 
 @Component({
   selector: 'solicitud-form',
@@ -11,49 +11,24 @@ import { MedicamentoService } from '../../services/medicamento.service';
   templateUrl: './solicitud-form.component.html'
 })
 export class SolicitudFormComponent {
-
-  @Input() solicitudes: Solicitud[] = [];
   @Input() medicamentos: Medicamento[] = [];
-  @Output() newSolicitudEventEmitter: EventEmitter<Solicitud> = new EventEmitter();
-  @Input() solicitud: Solicitud;
-  @Output() cancelEvent: EventEmitter<void> = new EventEmitter<void>();
+  @Input() usuarios: Usuario[] = [];
+  @Input() solicitud: Solicitud = new Solicitud();
+  @Output() solicitudEventEmitter = new EventEmitter<Solicitud>();
+  @Output() cancelEvent = new EventEmitter<void>();
 
-  medicamento: Medicamento;
-  newSolicitud: Solicitud = new Solicitud;
-
-  medicamentoService!: MedicamentoService;
-  medicamentoSeleccionado: Medicamento | null = null;
-
-  constructor(private MedicamentoService: MedicamentoService) {
-    this.solicitud = new Solicitud();
-    this.medicamento = new Medicamento();
-    this.solicitud.medicamento = this.medicamento;
-
-  }
-  ngOnInit(): void {
-    this.cargarDatos();
-  }
-
-  cargarDatos(): void {
-    this.MedicamentoService.findAll().subscribe(data => {
-      this.medicamentos = data;
-    });
-  }
-
+  medicamentoSeleccionado!: Medicamento;
+  usuarioSeleccionado!: Usuario;
 
   onSubmit(userForm: NgForm): void {
     if (userForm.valid) {
-      this.solicitud.medicamento.cantidad = this.medicamento.cantidad;
-
-      // Crear nueva instancia para evitar referencia compartida
-      this.newSolicitud = {
-        ...this.solicitud,
-        medicamento: { ...this.solicitud.medicamento }
-      };
-
-      this.newSolicitudEventEmitter.emit(this.newSolicitud);
-      this.solicitud = new Solicitud(); // Limpia la instancia actual
-      userForm.reset();
+      this.solicitud.medicamento = { ...this.medicamentoSeleccionado };
+      this.solicitud.usuarioId = this.usuarioSeleccionado?.id;
+      this.solicitudEventEmitter.emit(this.solicitud);
+      this.solicitud = new Solicitud();
+      this.medicamentoSeleccionado = new Medicamento();
+      this.usuarioSeleccionado = new Usuario();
+      console.log('Solicitud enviada:', this.solicitud);
       userForm.resetForm();
     }
   }
@@ -61,26 +36,27 @@ export class SolicitudFormComponent {
 
   onClear(userForm: NgForm): void {
     this.solicitud = new Solicitud();
-    userForm.reset();
     userForm.resetForm();
-
   }
 
   onCancel(userForm: NgForm): void {
-  userForm.reset();
-  userForm.resetForm();
-  this.cancelEvent.emit(); // Notifica al padre
-}
+    userForm.resetForm();
+    this.cancelEvent.emit();
+  }
+
+  onMedicamentoChange(): void {
+console.log('Medicamento seleccionado:', this.medicamentoSeleccionado);
+    if (this.medicamentoSeleccionado) {
+      this.solicitud.medicamento = this.medicamentoSeleccionado;
+      console.log('Solicitud medicamento:', this.solicitud.medicamento);
+    }
+  }
+
+  onUsuarioChange(): void {
+
+  }
 
   compararMedicamentos(m1: Medicamento, m2: Medicamento): boolean {
     return m1 && m2 ? m1.id === m2.id : m1 === m2;
-
   }
-
-  onMedicamentoChange() {
-
-    //this.isChecked = this.solicitud.medicamento?.esNoPos ?? false;
-
-  }
-
 }

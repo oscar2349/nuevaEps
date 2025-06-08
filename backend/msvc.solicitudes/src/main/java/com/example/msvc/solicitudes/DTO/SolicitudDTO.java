@@ -4,15 +4,6 @@ import java.time.LocalDateTime;
 
 public class SolicitudDTO {
     private Long Id;
-
-    public Long getId() {
-        return Id;
-    }
-
-    public void setId(Long id) {
-        Id = id;
-    }
-
     private Long usuarioId;
     private Long medicamentoId;
     private String numeroOrden;
@@ -22,6 +13,15 @@ public class SolicitudDTO {
     private LocalDateTime fechaCreacion;
 
     // Getters y Setters
+
+   public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        Id = id;
+    }
+
     public Long getUsuarioId() {
         return usuarioId;
     }

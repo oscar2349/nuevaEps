@@ -9,38 +9,32 @@
             <label for="medicamento">Seleccione un medicamento:</label>
 
             <div class="list-group list-group-flush">
-                <select class="form-select form-select-sm" aria-label="Small select example" id="medicamento"
-                    [(ngModel)]="solicitud.medicamento" name="medicamento" (ngModelChange)="onMedicamentoChange()"
-                    [compareWith]="compararMedicamentos" #name="ngModel">
+                <select class="form-select form-select-sm" [(ngModel)]="medicamentoSeleccionado"
+                    name="medicamentoSeleccionado" (ngModelChange)="onMedicamentoChange()" required #name="ngModel">
                     <option [ngValue]="null">-- Seleccione --</option>
-
                     @for (medicamento of medicamentos; track medicamento.id) {
-                    <option [ngValue]="medicamento">
-                        {{ medicamento.nombre }}
-                    </option>
+                    <option [ngValue]="medicamento">{{ medicamento.nombre }}</option>
                     }
                 </select>
-
             </div>
         </div>
 
+        <div>
+            <label for="usuario">Seleccione un Usuario:</label>
+            <div class="list-group list-group-flush">
+                <select class="form-select form-select-sm" [(ngModel)]="usuarioSeleccionado" 
+                name="usuarioSeleccionado"(ngModelChange)="onUsuarioChange()" required #name="ngModel">
+                    <option [ngValue]="null">-- Seleccione --</option>
+                    @for (usuario of usuarios; track usuario.id) {
+                    <option [ngValue]="usuario">{{ usuario.username }}</option>
+                    }
+                </select>
+            </div>
+        </div>
         @if (name.invalid && (name.dirty || name.touched)) {
         @if(name.errors!['required']){
         <div class="text-danger">
-            Medicamento es requerido
-        </div>
-        }
-        }
-    </div>
-
-    <div>
-        <input placeholder="cantidad" name="cantidad" [(ngModel)]="medicamento.cantidad" required
-            class="form-control my-2" #cantidad="ngModel">
-
-        @if (cantidad.invalid && (cantidad.dirty || cantidad.touched)) {
-        @if(cantidad.errors!['required']){
-        <div class="text-danger">
-            la cantidad es requerida
+            Usuario es requerido
         </div>
         }
         }
@@ -106,31 +100,28 @@
     </div>
 
 
-<div class="d-flex justify-content-end gap-3 mt-4">
-  <!-- Botón Crear -->
-  <button class="btn btn-success fw-bold d-flex align-items-center justify-content-center gap-2 w-fixed"
-          type="submit" [disabled]="userForm.invalid">
-    <i class="bi bi-check-circle-fill"></i>
-    Crear
-  </button>
+    <div class="d-flex justify-content-end gap-3 mt-4">
+        <!-- Botón Crear -->
+        <button class="btn btn-success fw-bold d-flex align-items-center justify-content-center gap-2 w-fixed"
+            type="submit" [disabled]="userForm.invalid">
+            <i class="bi bi-check-circle-fill"></i>
+            Crear
+        </button>
 
-  <!-- Botón Limpiar -->
-  <button type="button"
-          class="btn btn-outline-secondary fw-semibold d-flex align-items-center justify-content-center gap-2 w-fixed"
-          (click)="onClear(userForm)">
-    <i class="bi bi-arrow-clockwise"></i>
-    Limpiar
-  </button>
+        <!-- Botón Limpiar -->
+        <button type="button"
+            class="btn btn-outline-secondary fw-semibold d-flex align-items-center justify-content-center gap-2 w-fixed"
+            (click)="onClear(userForm)">
+            <i class="bi bi-arrow-clockwise"></i>
+            Limpiar
+        </button>
 
-  <!-- Botón Cancelar SIEMPRE ROJO -->
-  <button type="button"
-          class="btn btn-danger fw-bold d-flex align-items-center justify-content-center gap-2 w-fixed"
-          (click)="onCancel(userForm)">
-    <i class="bi bi-x-circle-fill"></i>
-    Cancelar
-  </button>
-</div>
-
-
-
+        <!-- Botón Cancelar SIEMPRE ROJO -->
+        <button type="button"
+            class="btn btn-danger fw-bold d-flex align-items-center justify-content-center gap-2 w-fixed"
+            (click)="onCancel(userForm)">
+            <i class="bi bi-x-circle-fill"></i>
+            Cancelar
+        </button>
+    </div>
 </form>

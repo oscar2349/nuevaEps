@@ -4,7 +4,7 @@
 <table class="table table-hover table-striped">
     <thead>
         <tr>
-            <th>Numero</th>
+            <th>N Solicitud</th>
             <th>Medicamento</th>
             <th>Pos</th>
             <th>Cantidad</th>
@@ -21,9 +21,9 @@
         @for (solicitud of solicitudesPaginadas; track $index) {
         <tr>
             <td> {{solicitud.id}} </td>
-            <td> {{solicitud.medicamento.nombre}} </td>
-            <td> {{solicitud.medicamento.esNoPos? '✅' : '❌'}} </td>
-            <td> {{solicitud.medicamento.cantidad}} </td>
+            <td> {{solicitud.medicamento?.nombre}} </td>
+            <td> {{solicitud.medicamento?.esNoPos? '✅' : '❌'}} </td>
+            <td> {{solicitud.medicamento?.cantidad}} </td>
             <td> {{solicitud.numeroOrden}} </td>
             <td> {{solicitud.direccion}} </td>
             <td> {{solicitud.telefono}} </td>

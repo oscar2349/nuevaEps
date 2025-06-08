@@ -11,6 +11,8 @@ import Swal from 'sweetalert2';
   templateUrl: './solicitudes.component.html',
 })
 export class SolicitudesComponent {
+
+  
   solicitud: Solicitud;
 
   @Input() solicitudes: Solicitud[] = [];
@@ -35,17 +37,14 @@ export class SolicitudesComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         this.idSolicitudEventEmitter.emit(id);
-        Swal.fire({
-          title: "Deleted!",
-          text: "Registro Eliminado",
-          icon: "success"
-        });
       }
     });
 
   }
 
   onSelectedSolicitud(solicitud: Solicitud): void {
+
+    console.log(solicitud.id)
 
     this.selectdSolicitudEventEmitter.emit(solicitud);
   
