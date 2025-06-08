@@ -1,29 +1,23 @@
 import { Routes } from '@angular/router';
 import { SolicitudesComponent } from './components/solicitudes/solicitudes.component';
 import { SolicitudFormComponent } from './components/solicitud-form/solicitud-form.component';
+import { MedicamentosComponent } from './components/medicamentos/medicamentos.component';
+import { UserAppComponent } from './components/solicitud-app.component';
 
 export const routes: Routes = [
 
     {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: '/solicitudes/page/0'
-    },
-    {
         path: 'solicitudes',
-        component: SolicitudesComponent,
+        component: UserAppComponent,
     },
     {
-        path: 'solicitudes/page/:page',
-        component: SolicitudesComponent,
+        path: 'medicamentos', 
+        component: MedicamentosComponent,
     },
-    {
-        path: 'solicitudes/create', 
+       {
+        path: 'form', 
         component: SolicitudFormComponent,
-    },
-    {
-        path: 'solicitudes/edit/:id',
-        component: SolicitudFormComponent
     }
+
 
 ];

@@ -3,11 +3,12 @@ import { Solicitud } from '../../models/solicitud';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SolicitudFormComponent } from "../solicitud-form/solicitud-form.component";
 import Swal from 'sweetalert2';
+import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-solicitudes',
   standalone: true,
-  imports: [SolicitudFormComponent, CommonModule],
+  imports: [RouterOutlet, CommonModule],
   templateUrl: './solicitudes.component.html',
 })
 export class SolicitudesComponent {
@@ -20,7 +21,7 @@ export class SolicitudesComponent {
   @Output() selectdSolicitudEventEmitter = new EventEmitter();
 
 
-  constructor() {
+  constructor(private router: Router) {
     this.solicitud = new Solicitud();
   }
 
@@ -45,6 +46,7 @@ export class SolicitudesComponent {
   onSelectedSolicitud(solicitud: Solicitud): void {
 
     this.selectdSolicitudEventEmitter.emit(solicitud);
+    this.router.navigate(['/form']);
   
   }
 

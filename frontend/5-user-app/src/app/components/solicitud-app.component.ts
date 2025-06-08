@@ -9,11 +9,12 @@ import { MedicamentoService } from '../services/medicamento.service';
 import Swal from 'sweetalert2';
 import { SolicitudPayload } from '../models/solicitudPayload';
 import { UsuarioService } from '../services/usuario.service';
+import { RouterModule, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'user-app',
   standalone: true,
-  imports: [SolicitudesComponent, SolicitudFormComponent],
+  imports: [SolicitudesComponent, SolicitudFormComponent,RouterOutlet,RouterModule],
   templateUrl: './solicitud-app.component.html'
 })
 export class UserAppComponent implements OnInit {
