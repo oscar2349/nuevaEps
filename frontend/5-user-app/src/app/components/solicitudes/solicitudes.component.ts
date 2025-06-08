@@ -44,8 +44,6 @@ export class SolicitudesComponent {
 
   onSelectedSolicitud(solicitud: Solicitud): void {
 
-    console.log(solicitud.id)
-
     this.selectdSolicitudEventEmitter.emit(solicitud);
   
   }

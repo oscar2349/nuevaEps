@@ -3,8 +3,9 @@
 
     <button type="button" class="btn btn-primary" (click)="setOpen()">Crear Solicitud</button>
     <div class="col">
-        <app-solicitudes [solicitudes]="solicitudes" (idSolicitudEventEmitter)="removeSolicitud($event)"
-            (selectdSolicitudEventEmitter)="setSelectedSolicitud($event)" />
+        <app-solicitudes [solicitudes]="solicitudes" 
+        (idSolicitudEventEmitter)="removeSolicitud($event)"
+        (selectdSolicitudEventEmitter)="setSelectedSolicitud($event)" />
     </div>
 
     @if (open) {
@@ -14,7 +15,8 @@
         [medicamentos]="medicamentos"
         [solicitud]="solicitudSelected"  
         (solicitudEventEmitter)="addSolicitud($event)"
-        (cancelEvent)="closeForm()" />
+        (cancelEvent)="closeForm()" 
+        />
     </div>
 
     }

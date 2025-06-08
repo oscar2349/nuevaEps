@@ -46,38 +46,42 @@ export class UserAppComponent implements OnInit {
       this.solicitudes = data;
     });
 
-     
+
 
     this.medicamentoService.findAll().subscribe(data => {
       console.log("Medicamentos cargados:", data);
       this.medicamentos = data;
     });
 
-        this.usuarioService.findAll().subscribe(data => {
+    this.usuarioService.findAll().subscribe(data => {
       console.log("usuarios cargados:", data);
       this.usuarios = data;
     });
   }
 
- addSolicitud(solicitud: Solicitud ) {
+ addSolicitud(solicitud: Solicitud) {
+  const medicamento = this.medicamentos.find(m => m.id === solicitud.medicamento.id || m.id === solicitud.medicamento?.id);
 
-   const solicitudPayload: SolicitudPayload = {
-        //solicitudId: this.solicitud.id ?? 0,
-        usuarioId: solicitud.usuarioId,
-        medicamentoId: solicitud.medicamento.id,
-        numeroOrden: solicitud.numeroOrden,
-        correo: solicitud.correo,
-        direccion: solicitud.direccion,
-        telefono: solicitud.telefono,
-        fechaCreacion: solicitud.fechaCreacion || new Date().toISOString()
-      };
+  const solicitudPayload: SolicitudPayload = {
+    usuarioId: solicitud.usuarioId,
+    medicamentoId: medicamento?.id || solicitud.medicamento.id,
+    numeroOrden: solicitud.numeroOrden,
+    correo: solicitud.correo,
+    direccion: solicitud.direccion,
+    telefono: solicitud.telefono,
+    fechaCreacion: solicitud.fechaCreacion || new Date().toISOString()
+  };
 
   if (solicitud.id && solicitud.id > 0) {
-    
-    this.solicitudService.update(solicitud.id,solicitudPayload).subscribe({
+    this.solicitudService.update(solicitud.id, solicitudPayload).subscribe({
       next: (updated) => {
-        this.solicitudes = this.solicitudes.map(u =>
-          u.id === updated.id ? updated : u
+        const solicitudCompleta: Solicitud = {
+          ...updated,
+          medicamento: medicamento!
+        };
+
+        this.solicitudes = this.solicitudes.map(s =>
+          s.id === updated.id ? solicitudCompleta : s
         );
         this.finalizarGuardado("Solicitud actualizada exitosamente");
       },
@@ -87,10 +91,14 @@ export class UserAppComponent implements OnInit {
       }
     });
   } else {
-
     this.solicitudService.create(solicitudPayload).subscribe({
       next: (created) => {
-        this.solicitudes = [...this.solicitudes, created];
+        const solicitudCompleta: Solicitud = {
+          ...created,
+          medicamento: medicamento!
+        };
+
+        this.solicitudes = [...this.solicitudes, solicitudCompleta];
         this.finalizarGuardado("Solicitud creada exitosamente");
       },
       error: (err) => {
@@ -102,47 +110,70 @@ export class UserAppComponent implements OnInit {
 }
 
 
-private finalizarGuardado(mensaje: string) {
-  this.solicitudSelected = new Solicitud();
-  Swal.fire("Guardado", mensaje, "success");
-  this.setOpen();
-}
 
-
-
+  private finalizarGuardado(mensaje: string) {
+    this.solicitudSelected = new Solicitud();
+    Swal.fire("Guardado", mensaje, "success");
+    this.setOpen();
+  }
   medicamentoSeleccionado!: Medicamento;
   verSeleccionado() {
     console.log(this.medicamentoSeleccionado);
     console.log('ID:', this.medicamentoSeleccionado?.id);
   }
 
-  setSelectedSolicitud(userRow: Solicitud): void {
-    this.solicitudSelected = { ...userRow };
-    this.open = true;
-    
-  }
+// setSelectedSolicitud(solicitudRow: Solicitud): void {
+  
+//   this.solicitudService.findById(solicitudRow.id).subscribe({
+//     next: (solicitudCompleta) => {
+//       // Actualiza la solicitud seleccionada para editar en el formulario
+//       this.solicitudSelected = { ...solicitudCompleta };
+//       this.open = true;
 
-removeSolicitud(id: number): void {
-  this.solicitudService.remove(id).subscribe({
-    next: () => {
-      this.solicitudes = this.solicitudes.filter(solicitud => solicitud.id != id);
+//       // Reemplaza en la lista la solicitud vieja con la completa
+//       this.solicitudes = this.solicitudes.map(s =>
+//         s.id === solicitudCompleta.id ? solicitudCompleta : s
+//       );
+//     },
+//     error: (err) => {
+//       console.error('Error al obtener solicitud:', err);
+//       Swal.fire('Error', 'No se pudo cargar la solicitud', 'error');
+//     }
+//   });
+// }
 
-      Swal.fire({
-        title: 'Eliminado',
-        text: 'La solicitud fue eliminada exitosamente',
-        icon: 'success'
-      });
-    },
-    error: (err) => {
-      console.error('Error al eliminar:', err);
-      Swal.fire({
-        title: 'Error',
-        text: 'No se pudo eliminar la solicitud',
-        icon: 'error'
-      });
-    }
-  });
+setSelectedSolicitud(solicitudRow: Solicitud): void {
+
+  this.solicitudSelected = { ...solicitudRow };
+  this.open = true;
+
+/*   this.solicitudes = this.solicitudes.map(s =>
+    s.id === solicitudRow.id ? solicitudRow : s
+  ); */
+
 }
+
+  removeSolicitud(id: number): void {
+    this.solicitudService.remove(id).subscribe({
+      next: () => {
+        this.solicitudes = this.solicitudes.filter(solicitud => solicitud.id != id);
+
+        Swal.fire({
+          title: 'Eliminado',
+          text: 'La solicitud fue eliminada exitosamente',
+          icon: 'success'
+        });
+      },
+      error: (err) => {
+        console.error('Error al eliminar:', err);
+        Swal.fire({
+          title: 'Error',
+          text: 'No se pudo eliminar la solicitud',
+          icon: 'error'
+        });
+      }
+    });
+  }
 
   setOpen() {
 

@@ -4,40 +4,33 @@
         <p class="text-center">
             <label for="medicamento">Crear Nueva Solicitud</label>
         </p>
-
         <div>
-            <label for="medicamento">Seleccione un medicamento:</label>
-
-            <div class="list-group list-group-flush">
-                <select class="form-select form-select-sm" [(ngModel)]="medicamentoSeleccionado"
-                    name="medicamentoSeleccionado" (ngModelChange)="onMedicamentoChange()" required #name="ngModel">
-                    <option [ngValue]="null">-- Seleccione --</option>
-                    @for (medicamento of medicamentos; track medicamento.id) {
-                    <option [ngValue]="medicamento">{{ medicamento.nombre }}</option>
-                    }
-                </select>
-            </div>
+            <label for="medicamento">Seleccione un Medicamento:</label>
+            <select class="form-select form-select-sm" [(ngModel)]="medicamentoSeleccionado"
+                name="medicamentoSeleccionado" (ngModelChange)="onMedicamentoChange()" required
+                #medicamentoNgModel="ngModel">
+                <option [ngValue]="null">-- Seleccione --</option>
+                @for (medicamento of medicamentos; track medicamento.id) {
+                <option [ngValue]="medicamento">{{ medicamento.nombre }}</option>
+                }
+            </select>
+            @if (medicamentoNgModel.invalid && (medicamentoNgModel.dirty || medicamentoNgModel.touched)) {
+            <div class="text-danger">Medicamento es requerido</div>
+            }
         </div>
-
         <div>
             <label for="usuario">Seleccione un Usuario:</label>
-            <div class="list-group list-group-flush">
-                <select class="form-select form-select-sm" [(ngModel)]="usuarioSeleccionado" 
-                name="usuarioSeleccionado"(ngModelChange)="onUsuarioChange()" required #name="ngModel">
-                    <option [ngValue]="null">-- Seleccione --</option>
-                    @for (usuario of usuarios; track usuario.id) {
-                    <option [ngValue]="usuario">{{ usuario.username }}</option>
-                    }
-                </select>
-            </div>
+            <select class="form-select form-select-sm" [(ngModel)]="usuarioSeleccionado" name="usuarioSeleccionado"
+                (ngModelChange)="onUsuarioChange()" required #usuarioNgModel="ngModel">
+                <option [ngValue]="null">-- Seleccione --</option>
+                @for (usuario of usuarios; track usuario.id) {
+                <option [ngValue]="usuario">{{ usuario.username }}</option>
+                }
+            </select>
+            @if (usuarioNgModel.invalid && (usuarioNgModel.dirty || usuarioNgModel.touched)) {
+            <div class="text-danger">Usuario es requerido</div>
+            }
         </div>
-        @if (name.invalid && (name.dirty || name.touched)) {
-        @if(name.errors!['required']){
-        <div class="text-danger">
-            Usuario es requerido
-        </div>
-        }
-        }
     </div>
 
     <div>
@@ -104,7 +97,8 @@
         <!-- Botón Crear -->
         <button class="btn btn-success fw-bold d-flex align-items-center justify-content-center gap-2 w-fixed"
             type="submit" [disabled]="userForm.invalid">
-            <i class="bi bi-check-circle-fill"></i>
+            <i class="bi bi-check-circle-fill"
+            ></i>
             Crear
         </button>
 
