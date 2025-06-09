@@ -1,14 +1,13 @@
 import { CommonModule } from '@angular/common'; // 👈 importar CommonModule
 import { Solicitud } from '../../models/solicitud';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { SolicitudFormComponent } from "../solicitud-form/solicitud-form.component";
 import Swal from 'sweetalert2';
-import { Router, RouterOutlet } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-solicitudes',
   standalone: true,
-  imports: [RouterOutlet, CommonModule],
+  imports: [CommonModule],
   templateUrl: './solicitudes.component.html',
 })
 export class SolicitudesComponent {
@@ -46,7 +45,7 @@ export class SolicitudesComponent {
   onSelectedSolicitud(solicitud: Solicitud): void {
 
     this.selectdSolicitudEventEmitter.emit(solicitud);
-    this.router.navigate(['/form']);
+    
   
   }
 

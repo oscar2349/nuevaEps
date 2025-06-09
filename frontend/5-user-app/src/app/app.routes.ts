@@ -6,18 +6,6 @@ import { UserAppComponent } from './components/solicitud-app.component';
 
 export const routes: Routes = [
 
-    {
-        path: 'solicitudes',
-        component: UserAppComponent,
-    },
-    {
-        path: 'medicamentos', 
-        component: MedicamentosComponent,
-    },
-       {
-        path: 'form', 
-        component: SolicitudFormComponent,
-    }
 
 
 ];

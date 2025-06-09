@@ -14,7 +14,7 @@ import { RouterModule, RouterOutlet } from '@angular/router';
 @Component({
   selector: 'user-app',
   standalone: true,
-  imports: [SolicitudesComponent, SolicitudFormComponent,RouterOutlet,RouterModule],
+  imports: [SolicitudesComponent, SolicitudFormComponent,RouterModule],
   templateUrl: './solicitud-app.component.html'
 })
 export class UserAppComponent implements OnInit {
