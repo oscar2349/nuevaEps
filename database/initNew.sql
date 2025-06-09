@@ -1,6 +1,4 @@
---
--- Table structure for table `medicamentos`
---
+USE db_medicamentos;
 
 DROP TABLE IF EXISTS `medicamentos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -52,35 +50,6 @@ UNLOCK TABLES;
 -- Table structure for table `solicitudes`
 --
 
-DROP TABLE IF EXISTS `solicitudes`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `solicitudes` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `usuario_id` int NOT NULL,
-  `medicamento_id` int NOT NULL,
-  `numero_orden` varchar(100) DEFAULT NULL,
-  `direccion` text,
-  `telefono` varchar(20) DEFAULT NULL,
-  `correo` varchar(100) DEFAULT NULL,
-  `fecha_creacion` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `usuario_id` (`usuario_id`),
-  KEY `medicamento_id` (`medicamento_id`),
-  CONSTRAINT `solicitudes_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`),
-  CONSTRAINT `solicitudes_ibfk_2` FOREIGN KEY (`medicamento_id`) REFERENCES `medicamentos` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `solicitudes`
---
-
-LOCK TABLES `solicitudes` WRITE;
-/*!40000 ALTER TABLE `solicitudes` DISABLE KEYS */;
-INSERT INTO `solicitudes` VALUES (3,1,10,'ORD12345','Calle Falsa 123','123456789','usuario@example.com','2025-06-05 14:30:00'),(4,4,7,'TP54321','Carrera 45','3102223344','luis@example.com','2025-06-05 19:01:20'),(5,5,3,'OSM12345','Calle 123','3001112233','mari@example.com','2025-06-05 19:01:20'),(6,6,4,'OTD12345','Calle 123','3001112233','luz@example.com','2025-06-05 19:01:20'),(7,7,8,'OHH98765','Av 9 No. 22-55','3205556677','lucia@example.com','2025-06-05 19:01:20'),(8,8,5,'OMR12345','Calle 123','3001112233','maria@example.com','2025-06-05 19:01:20'),(9,9,9,'OTDD11223','Calle Falsa 123','3104445566','laura@example.com','2025-06-05 19:01:20'),(10,10,10,'ORD12345','Calle Falsa Update 123','123456789','modificado@example.com','2025-06-05 14:30:00'),(11,1,10,'ORD12345','Calle Falsa 123','123456789','modificado@example.com','2025-06-05 14:06:49'),(12,1,10,'ORD12345','Calle Falsa 123','123456789','modificado@example.com','2025-06-05 16:27:38'),(13,1,10,'ORD12345','Calle Falsa 123','123456789','modificado@example.com','2025-06-05 16:27:49'),(14,10,10,'ORD12345','Calle Falsa Update 123','123456789','modificado@example.com','2025-06-05 16:28:46');
-/*!40000 ALTER TABLE `solicitudes` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `users`
@@ -139,9 +108,6 @@ INSERT INTO `users_roles` VALUES (1,1),(1,2),(2,1),(2,2),(14,1);
 /*!40000 ALTER TABLE `users_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `usuarios`
---
 
 DROP TABLE IF EXISTS `usuarios`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -165,4 +131,34 @@ LOCK TABLES `usuarios` WRITE;
 INSERT INTO `usuarios` VALUES (1,'Ana Pérez','ana@example.com','$2a$10$abcdefghij1234567890'),(2,'Carlos López','carlos@example.com','$2a$10$abcdefghij1234567890'),(3,'María Díaz','maria@example.com','$2a$10$abcdefghij1234567890'),(4,'Luis Torres','luis@example.com','$2a$10$abcdefghij1234567890'),(5,'Paula Ruiz','paula@example.com','$2a$10$abcdefghij1234567890'),(6,'José García','jose@example.com','$2a$10$abcdefghij1234567890'),(7,'Lucía Fernández','lucia@example.com','$2a$10$abcdefghij1234567890'),(8,'Andrés Ramírez','andres@example.com','$2a$10$abcdefghij1234567890'),(9,'Laura Herrera','laura@example.com','$2a$10$abcdefghij1234567890'),(10,'Diego Martínez','diego@example.com','$2a$10$abcdefghij1234567890');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+
+DROP TABLE IF EXISTS `solicitudes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `solicitudes` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `usuario_id` int NOT NULL,
+  `medicamento_id` int NOT NULL,
+  `numero_orden` varchar(100) DEFAULT NULL,
+  `direccion` text,
+  `telefono` varchar(20) DEFAULT NULL,
+  `correo` varchar(100) DEFAULT NULL,
+  `fecha_creacion` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `usuario_id` (`usuario_id`),
+  KEY `medicamento_id` (`medicamento_id`),
+  CONSTRAINT `solicitudes_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`),
+  CONSTRAINT `solicitudes_ibfk_2` FOREIGN KEY (`medicamento_id`) REFERENCES `medicamentos` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `solicitudes`
+--
+
+LOCK TABLES `solicitudes` WRITE;
+/*!40000 ALTER TABLE `solicitudes` DISABLE KEYS */;
+INSERT INTO `solicitudes` VALUES (3,1,10,'ORD12345','Calle Falsa 123','123456789','usuario@example.com','2025-06-05 14:30:00'),(4,4,7,'TP54321','Carrera 45','3102223344','luis@example.com','2025-06-05 19:01:20'),(5,5,3,'OSM12345','Calle 123','3001112233','mari@example.com','2025-06-05 19:01:20'),(6,6,4,'OTD12345','Calle 123','3001112233','luz@example.com','2025-06-05 19:01:20'),(7,7,8,'OHH98765','Av 9 No. 22-55','3205556677','lucia@example.com','2025-06-05 19:01:20'),(8,8,5,'OMR12345','Calle 123','3001112233','maria@example.com','2025-06-05 19:01:20'),(9,9,9,'OTDD11223','Calle Falsa 123','3104445566','laura@example.com','2025-06-05 19:01:20'),(10,10,10,'ORD12345','Calle Falsa Update 123','123456789','modificado@example.com','2025-06-05 14:30:00'),(11,1,10,'ORD12345','Calle Falsa 123','123456789','modificado@example.com','2025-06-05 14:06:49'),(12,1,10,'ORD12345','Calle Falsa 123','123456789','modificado@example.com','2025-06-05 16:27:38'),(13,1,10,'ORD12345','Calle Falsa 123','123456789','modificado@example.com','2025-06-05 16:27:49'),(14,10,10,'ORD12345','Calle Falsa Update 123','123456789','modificado@example.com','2025-06-05 16:28:46');
+/*!40000 ALTER TABLE `solicitudes` ENABLE KEYS */;
+UNLOCK TABLES;

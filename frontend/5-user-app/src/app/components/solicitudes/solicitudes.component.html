@@ -21,9 +21,9 @@
         @for (solicitud of solicitudesPaginadas; track $index) {
         <tr>
             <td> {{solicitud.id}} </td>
-            <td> {{solicitud.medicamento?.nombre}} </td>
-            <td> {{solicitud.medicamento?.esNoPos? '✅' : '❌'}} </td>
-            <td> {{solicitud.medicamento?.cantidad}} </td>
+            <td> {{solicitud.medicamento.nombre}} </td>
+            <td> {{solicitud.medicamento.esNoPos? '✅' : '❌'}} </td>
+            <td> {{solicitud.medicamento.cantidad}} </td>
             <td> {{solicitud.numeroOrden}} </td>
             <td> {{solicitud.direccion}} </td>
             <td> {{solicitud.telefono}} </td>

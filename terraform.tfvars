@@ -1,0 +1,5 @@
+region        = "us-east-1"
+key_name      = "TestSSH"
+bucket_name   = "mi-bucket-unico-12345-ingenieria-2025"
+instance_type = "t2.micro"
+ami_id        = "ami-02457590d33d576c3"

@@ -10,11 +10,12 @@ import Swal from 'sweetalert2';
 import { SolicitudPayload } from '../models/solicitudPayload';
 import { UsuarioService } from '../services/usuario.service';
 import { RouterModule, RouterOutlet } from '@angular/router';
+import { NavbarComponent } from "./navbar/navbar.component";
 
 @Component({
   selector: 'user-app',
   standalone: true,
-  imports: [SolicitudesComponent, SolicitudFormComponent,RouterModule],
+  imports: [SolicitudesComponent, SolicitudFormComponent, RouterModule, NavbarComponent],
   templateUrl: './solicitud-app.component.html'
 })
 export class UserAppComponent implements OnInit {

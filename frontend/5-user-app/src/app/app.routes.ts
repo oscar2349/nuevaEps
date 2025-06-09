@@ -1,11 +1,12 @@
 import { Routes } from '@angular/router';
-import { SolicitudesComponent } from './components/solicitudes/solicitudes.component';
-import { SolicitudFormComponent } from './components/solicitud-form/solicitud-form.component';
-import { MedicamentosComponent } from './components/medicamentos/medicamentos.component';
 import { UserAppComponent } from './components/solicitud-app.component';
+import { LoginComponent } from './components/login/login.component';
+import { MedicamentosComponent } from './components/medicamentos/medicamentos.component';
 
 export const routes: Routes = [
-
-
-
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'solicitudes', component: UserAppComponent },
+  { path: 'medicamentos', component: MedicamentosComponent },
+  { path: '**', redirectTo: 'login' }
 ];

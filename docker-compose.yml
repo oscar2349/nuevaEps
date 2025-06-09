@@ -24,7 +24,7 @@ services:
       - mysql
 
   msvc-solicitudes:
-    build: ./backend/msvc-solicitudes
+    build: ./backend/msvc.solicitudes
     container_name: msvc-solicitudes
     ports:
       - "8888:8888"
@@ -47,24 +47,24 @@ services:
     networks:
       - micro_net
 
-  msvc-oauth:
-    build: ./backend/msvc-oauth
-    container_name: msvc-oauth
-    ports:
-      - "8081:8081"
-    depends_on:
-      - eureka-server
-      - msvc-users
-    networks:
-      - micro_net
-
   msvc-gateway:
     build: ./backend/msvc-gateway-server
     container_name: msvc-gateway
     ports:
-      - "8080:8080"
+      - "8090:8080"
     depends_on:
-      - msvc-oauth
+      - msvc-solicitudes
+      - msvc-users
+      - eureka-server
+    networks:
+      - micro_net
+
+  frontend:
+    build: ./frontend/5-user-app
+    container_name: angular_frontend
+    ports:
+      - "4200:80"
+    depends_on:
       - msvc-solicitudes
       - msvc-users
       - eureka-server

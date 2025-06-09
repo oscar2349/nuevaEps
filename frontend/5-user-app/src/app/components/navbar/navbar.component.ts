@@ -1,16 +1,12 @@
-import { Component, Input } from '@angular/core';
-import { RouterModule, RouterOutlet } from '@angular/router';
-import { Solicitud } from '../../models/solicitud';
-
+import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterModule],
   templateUrl: './navbar.component.html',
 })
 export class NavbarComponent {
 
-  @Input() solicitud: Solicitud[] = [];
-  @Input() paginator = {}
 }

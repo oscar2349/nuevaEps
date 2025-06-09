@@ -5,3 +5,8 @@ export class Medicamento {
   cantidad?: number;
 }
 
+export interface MedicamentoCrear {
+  nombre: string;
+  esNoPos: boolean;
+  cantidad?: number;
+}
