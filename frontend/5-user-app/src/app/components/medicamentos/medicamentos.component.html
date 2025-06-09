@@ -1,1 +1,28 @@
-<p>medicamentos works!</p>
+<div class="container mt-4">
+  <h2 class="mb-4">Listado de Medicamentos</h2>
+
+  @if (loading) {
+    <div class="alert alert-info">Cargando medicamentos...</div>
+  } @else if (error) {
+    <div class="alert alert-danger">{{ error }}</div>
+  } @else {
+    <table class="table table-bordered table-striped">
+      <thead class="table-dark">
+        <tr>
+          <th>Nombre</th>
+          <th>¿Es No POS?</th>
+          <th>Cantidad</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (med of medicamentos; track med.id) {
+          <tr>
+            <td>{{ med.nombre }}</td>
+            <td>{{ med.esNoPos ? 'Sí' : 'No' }}</td>
+            <td>{{ med.cantidad ?? 'No especificada' }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>
