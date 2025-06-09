@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   mysql:
     image: mysql:8.3
@@ -67,4 +65,12 @@ services:
       - "8080:8080"
     depends_on:
       - msvc-oauth
-      - msv
+      - msvc-solicitudes
+      - msvc-users
+      - eureka-server
+    networks:
+      - micro_net
+
+networks:
+  micro_net:
+    driver: bridge

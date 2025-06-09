@@ -35,19 +35,17 @@ export class UserAppComponent implements OnInit {
     this.solicitudSelected = new Solicitud();
   }
 
-
   ngOnInit(): void {
     this.cargarDatos();
   }
 
   cargarDatos(): void {
 
-    this.solicitudService.findAll().subscribe(data => {
+     this.solicitudService.findAll().subscribe(data => {
+      //this.solicitudService.findAllPageable(page).subscribe(data => {
       console.log('Solicitudes recibidas:', data);
       this.solicitudes = data;
     });
-
-
 
     this.medicamentoService.findAll().subscribe(data => {
       console.log("Medicamentos cargados:", data);
@@ -110,8 +108,6 @@ export class UserAppComponent implements OnInit {
   }
 }
 
-
-
   private finalizarGuardado(mensaje: string) {
     this.solicitudSelected = new Solicitud();
     Swal.fire("Guardado", mensaje, "success");
@@ -123,34 +119,10 @@ export class UserAppComponent implements OnInit {
     console.log('ID:', this.medicamentoSeleccionado?.id);
   }
 
-// setSelectedSolicitud(solicitudRow: Solicitud): void {
-  
-//   this.solicitudService.findById(solicitudRow.id).subscribe({
-//     next: (solicitudCompleta) => {
-//       // Actualiza la solicitud seleccionada para editar en el formulario
-//       this.solicitudSelected = { ...solicitudCompleta };
-//       this.open = true;
-
-//       // Reemplaza en la lista la solicitud vieja con la completa
-//       this.solicitudes = this.solicitudes.map(s =>
-//         s.id === solicitudCompleta.id ? solicitudCompleta : s
-//       );
-//     },
-//     error: (err) => {
-//       console.error('Error al obtener solicitud:', err);
-//       Swal.fire('Error', 'No se pudo cargar la solicitud', 'error');
-//     }
-//   });
-// }
-
 setSelectedSolicitud(solicitudRow: Solicitud): void {
 
   this.solicitudSelected = { ...solicitudRow };
   this.open = true;
-
-/*   this.solicitudes = this.solicitudes.map(s =>
-    s.id === solicitudRow.id ? solicitudRow : s
-  ); */
 
 }
 
