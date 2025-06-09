@@ -1,0 +1,54 @@
+<div class="container mt-4">
+  <h2>Crear Medicamento</h2>
+
+  @if (mensaje) {
+    <div class="alert alert-success">{{ mensaje }}</div>
+  }
+
+  @if (error) {
+    <div class="alert alert-danger">{{ error }}</div>
+  }
+
+  <form (ngSubmit)="guardar()" #form="ngForm" class="mt-3">
+
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombre</label>
+      <input
+        type="text"
+        id="nombre"
+        class="form-control"
+        required
+        name="nombre"
+        [(ngModel)]="medicamento.nombre"
+      />
+    </div>
+
+    <div class="form-check mb-3">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        id="esNoPos"
+        name="esNoPos"
+        [(ngModel)]="medicamento.esNoPos"
+      />
+      <label class="form-check-label" for="esNoPos">
+        ¿Es No POS?
+      </label>
+    </div>
+
+    <div class="mb-3">
+      <label for="cantidad" class="form-label">Cantidad</label>
+      <input
+        type="number"
+        id="cantidad"
+        class="form-control"
+        name="cantidad"
+        [(ngModel)]="medicamento.cantidad"
+      />
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+      Guardar
+    </button>
+  </form>
+</div>
